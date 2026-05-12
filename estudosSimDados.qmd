@@ -1,0 +1,98 @@
+---
+title: "Estudos Iniciais em Simulação de Dados"
+author: "Ricardo da Fonseca"
+format: 
+  html:
+    number-sections: true
+editor: visual
+lang: pt-BR
+---
+
+## Introdução
+
+1.  Por que a simulação de dados é importante?
+
+    1.  redução de custos;
+
+    2.  exploração do desconhecido;
+
+    3.  auxílio na tomada de decisões.
+
+2.  Por que a simulação de dados é importante na graduação?
+
+    1.  Estudos mais aprofundados;
+
+    2.  Desenvolvimento de capacidade de interpretação.
+
+3.  Simulação de Monte Carlo
+
+## Introdução ao R
+
+Nessa seção apresentarei alguns comandos básicos para R que usaremos durante nossos estudos.
+
+As funções apresentadas nessa seção serão:
+
+- *summary*
+
+- *data.frame*
+
+- *c*
+
+- *list*
+
+- *rnorm*
+
+- *sample*
+
+- *seed*
+
+## Introdução ao Rmarkdown
+
+Falar sobre os comandos:
+
+- Headings 1, 2, 3, ...
+
+- itálico
+
+- negrito
+
+## Distribuições de Probabilidade
+
+1.  Normal
+2.  Gamma
+3.  F
+4.  t
+5.  Qui-quadrado
+
+## Simulações (Nível 1): Dados Experimentais de de Coleta Única
+
+1.  DIC
+2.  DBC
+3.  DQL
+4.  Experimentos Fatoriais
+5.  Coleta (definir modelo)
+
+## Simulações (Nível 2): Dados Experimentais e de Coleta Única com n Características Correlacionados
+
+1.  Decomposição de Cholesky
+2.  Análise de regressão (Simular dados via equação de regressão e adicionar os resíduos. Como simular especificando uma correlação ou R2 específico?)
+
+## Simulações (Nível 3): Dados Coletados por n Gerações
+
+1.  Envolve a definição de progenitores
+2.  Simular à partir de um pedigree?
+
+## Simulações (Nível 4): Dados Genéticos Coletados por n Gerações com Simulação de Genes ou QTLs
+
+1.  Gene dropping, forward simulation
+2.  Geração de genoma
+
+## Simulações (Nível 5): Dados Genéticos Coletados por n Gerações com Simulação de Genes ou QTLs e Características Correlacionadas.
+
+1.  Geração de genoma
+2.  Escolha de reprodutores
+
+## Simulações (Nível 6): Dados Genômicos
+
+1.  Linkage desiquilibrium
+2.  Equilíbrio mutação - deriva genética
