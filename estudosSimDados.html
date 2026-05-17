@@ -39,6 +39,35 @@ ul.task-list li input[type="checkbox"] {
 <link href="estudosSimDados_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="estudosSimDados_files/libs/bootstrap/bootstrap-efbb37e9afcc02144ebbc7afd12a776f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -125,13 +154,39 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="simulações-nível-1-dados-experimentais-de-de-coleta-única" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="simulações-nível-1-dados-experimentais-de-de-coleta-única"><span class="header-section-number">5</span> Simulações (Nível 1): Dados Experimentais de de Coleta Única</h2>
+<section id="dic" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="dic"><span class="header-section-number">5.1</span> DIC</h3>
+<p>Para simularmos dados de um Delineamento Inteiramento Casualizado (DIC) devemos definir o modelo e a distribuição de probabilidade associada a cada efeito aleatório.</p>
+<p>O modelo utilizado no DIC é:</p>
+<p><span class="math display">\[y_{ij} = \mu + t_i + e_{ij}\]</span></p>
+<p>em que:</p>
+<p><span class="math inline">\(y_{ij} =\)</span> j-ésima observação do i-ésimo tratamento;</p>
+<p><span class="math inline">\(\mu =\)</span> média da variável resposta;</p>
+<p><span class="math inline">\(t_i =\)</span> efeito do i-ésimo tratamento;</p>
+<p><span class="math inline">\(e_{ij} =\)</span> erro associado à j-ésima observação do i-ésimo tratamento;</p>
+<p>São efeitos aleatórios no modelo: <span class="math inline">\(y\)</span> e <span class="math inline">\(e\)</span>; <span class="math inline">\(\mu\)</span> e <span class="math inline">\(t\)</span> são considerados efeitos fixos. Portanto, precisamos definir a distribuição dos efeitos aleatórios. A distribuição de <span class="math inline">\(y\)</span> fica definida pela distribuição assumida para <span class="math inline">\(e\)</span>, uma vez que é uma combinação linear desse efeito. Assim, se assumirmos que <span class="math inline">\(e\)</span> tem distribuição normal, também o terá <span class="math inline">\(y\)</span>.</p>
+<p>Pode-se pensar em dividir a resolução do problema de simular os dados em três partes:</p>
 <ol type="1">
-<li>DIC</li>
-<li>DBC</li>
-<li>DQL</li>
-<li>Experimentos Fatoriais</li>
-<li>Coleta (definir modelo)</li>
+<li>Simular os efeitos aleatórios;</li>
+<li>Simular os efeitos fixos;</li>
+<li>Calcular a variável resposta ou dependente.</li>
 </ol>
+<section id="simular-os-efeitos-aleatórios" class="level4" data-number="5.1.1">
+<h4 data-number="5.1.1" class="anchored" data-anchor-id="simular-os-efeitos-aleatórios"><span class="header-section-number">5.1.1</span> Simular os efeitos aleatórios</h4>
+<p>Propriedade da Reprodutibilidade:</p>
+<p>Se <span class="math inline">\(X_1\sim N\left(\mu_1, \sigma_1^2\right)\)</span> e <span class="math inline">\(X_2\sim N\left(\mu_2, \sigma_2^2\right)\)</span></p>
+<p>Então para quaisquer constantes <em>a</em> e <em>b</em>:</p>
+<p><span class="math inline">\(Y = aX_1 + bX_2 \sim N\left(a\mu_1 + b\mu_2, (a\sigma_1)^2 + (b\sigma_2)^2\right)\)</span></p>
+<p>Assim, é fácil de ver que se <span class="math inline">\(e\sim N\left(0, \sigma^2_e\right)\)</span>, então <span class="math inline">\(Y\sim N\left(\mu, \sigma_e^2\right)\)</span></p>
+<p>Para iniciarmos a simulação dos dados precisamos definir também quantos níveis serão considerados para o efeito fixo de tratamento <span class="math inline">\(\left(t\right)\)</span>.</p>
+<ol type="1">
+<li><p>DBC</p></li>
+<li><p>DQL</p></li>
+<li><p>Experimentos Fatoriais</p></li>
+<li><p>Coleta (definir modelo)</p></li>
+</ol>
+</section>
+</section>
 </section>
 <section id="simulações-nível-2-dados-experimentais-e-de-coleta-única-com-n-características-correlacionados" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="simulações-nível-2-dados-experimentais-e-de-coleta-única-com-n-características-correlacionados"><span class="header-section-number">6</span> Simulações (Nível 2): Dados Experimentais e de Coleta Única com n Características Correlacionados</h2>

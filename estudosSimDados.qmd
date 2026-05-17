@@ -66,11 +66,53 @@ Falar sobre os comandos:
 
 ## Simulações (Nível 1): Dados Experimentais de de Coleta Única
 
-1.  DIC
-2.  DBC
-3.  DQL
-4.  Experimentos Fatoriais
-5.  Coleta (definir modelo)
+### DIC
+
+Para simularmos dados de um Delineamento Inteiramento Casualizado (DIC) devemos definir o modelo e a distribuição de probabilidade associada a cada efeito aleatório.
+
+O modelo utilizado no DIC é:
+
+$$y_{ij} = \mu + t_i + e_{ij}$$
+
+em que:
+
+$y_{ij} =$ j-ésima observação do i-ésimo tratamento;
+
+$\mu =$ média da variável resposta;
+
+$t_i =$ efeito do i-ésimo tratamento;
+
+$e_{ij} =$ erro associado à j-ésima observação do i-ésimo tratamento;
+
+São efeitos aleatórios no modelo: $y$ e $e$; $\mu$ e $t$ são considerados efeitos fixos. Portanto, precisamos definir a distribuição dos efeitos aleatórios. A distribuição de $y$ fica definida pela distribuição assumida para $e$, uma vez que é uma combinação linear desse efeito. Assim, se assumirmos que $e$ tem distribuição normal, também o terá $y$.
+
+Pode-se pensar em dividir a resolução do problema de simular os dados em três partes:
+
+1.  Simular os efeitos aleatórios;
+2.  Simular os efeitos fixos;
+3.  Calcular a variável resposta ou dependente.
+
+#### Simular os efeitos aleatórios
+
+Propriedade da Reprodutibilidade:
+
+Se $X_1\sim N\left(\mu_1, \sigma_1^2\right)$ e $X_2\sim N\left(\mu_2, \sigma_2^2\right)$
+
+Então para quaisquer constantes *a* e *b*:
+
+$Y = aX_1 + bX_2 \sim N\left(a\mu_1 + b\mu_2, (a\sigma_1)^2 + (b\sigma_2)^2\right)$
+
+Assim, é fácil de ver que se $e\sim N\left(0, \sigma^2_e\right)$, então $Y\sim N\left(\mu, \sigma_e^2\right)$
+
+Para iniciarmos a simulação dos dados precisamos definir também quantos níveis serão considerados para o efeito fixo de tratamento $\left(t\right)$.
+
+1.  DBC
+
+2.  DQL
+
+3.  Experimentos Fatoriais
+
+4.  Coleta (definir modelo)
 
 ## Simulações (Nível 2): Dados Experimentais e de Coleta Única com n Características Correlacionados
 
