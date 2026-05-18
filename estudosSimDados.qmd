@@ -72,7 +72,7 @@ Para simularmos dados de um Delineamento Inteiramento Casualizado (DIC) devemos 
 
 O modelo utilizado no DIC é:
 
-$$y_{ij} = \mu + t_i + e_{ij}$$
+$$y_{ij} = \mu + t_i + e_{ij}$$ {#eq-DIC}
 
 em que:
 
@@ -92,9 +92,146 @@ Pode-se pensar em dividir a resolução do problema de simular os dados em três
 2.  Simular os efeitos fixos;
 3.  Calcular a variável resposta ou dependente.
 
+Para fins de apresentação do processo de simulação será assumido que deseja-se simular dados de um experimento no DIC com $3$ tratamentos e $3$ repetições por tratamento. O experimento tem como finalidade avaliar o peso à desmama (PD) de bezerros de três raças diferentes de bovinos (nelore, guzerá e tabapuã). Sendo assim, deve-se simular $9$ observações de peso à desmama. Vamos assumir também que a média de peso à desmama da população de bezerros $\left(\mu_{PD}\right)$ é igual a $200 kg$ e que os tratamentos explicam $80\%$ de toda a variação observada no peso à desmama (variável resposta). Finalmente precisamos assumir também um valor para a variação de peso à desmama $\left(\sigma^2_{PD}\right)$. Este valor pode ser encontrado na literatura ou definido pelo pesquisador. Aqui será assumido $\sigma^2_{PD} = 400$.
+
 #### Simular os efeitos aleatórios
 
-Propriedade da Reprodutibilidade:
+O efeito aleatório que precisamos gerar é o do resíduo $(e)$. Para isso, devemos definir a distribuição de probabilidade e seus parâmetros. Usualmente, assumimos que os efeitos residuais têm distribuição normal com média $0$ e variância $\sigma_e^2$. Como a variação do peso à desmama é igual a $400$, então $\sigma^2_e = 400 \times 0,2 = 80$.
+
+Gerando os valores no R e armazenando-os no vetor *e*:
+
+```{r res}
+set.seed(6)
+
+e<-rnorm(9, sd = sqrt(80))
+e
+
+message("A variância dos efeitos residuais é: ", var(e))
+```
+
+Note que está implicito que a variação residual é considerada a mesma dentro de cada tratamento (raça).
+
+#### Simular os efeitos fixos
+
+Os efeitos fixos podem ser simulados de maneira semelhante aos efeitos aleatórios. Podemos amostrá-los de uma distribuição de probabilidade e, posteriormente, atribuí-los aos registros que serão simulados. Considere que é razoável assumir que os efeitos de raças tem distribuição normal com média $0$ e variância entre raças $\left(\Phi_{trat} \right)$ igual a $320$ $\left(400 \times 0,8\right)$. Então os efeitos são simulados como:
+
+```{r fixos}
+set.seed(6)
+
+fixo<-rnorm(3, sd = sqrt(320))
+fixo
+```
+
+Os efeitos fixos, quando em pequena quantidade, também podem ser atribuídos arbitrariamente pelo pesquisador.
+
+Uma vez definidos os efeitos das raças, deve-se associá-los às $9$ observações que serão simuladas. Vamos considerar que as três primeiras observações serão da raça nelore e as seguintes serão das raças guzerá e tabapuã respectivamente.
+
+```{r atribfixos}
+set.seed(6)
+
+raca<-rep(fixo, each = 3)
+
+raca<-round(raca, digits = 2)
+raca
+
+message("A variância dos efeitos de raça é: ", var(raca))
+```
+
+Agora pode-se criar um vetor com os nomes abreviados das raças na mesma ordem em que foram simulados os efeitos (trat):
+
+```{r racas}
+
+rac<-c("nel", "guz", "tab")
+
+trat<-rep(rac, each = 3)
+trat
+```
+
+#### Simular as observações
+
+Finalmente as observações do experimento podem ser simuladas, bastando somar os vetores de efeitos gerados com a média da variável resposta de acordo com o modelo [-@eq-DIC] .
+
+```{r dados}
+
+mediaPD<-200
+
+pd<-mediaPD + raca + e
+
+#arredondando os valores e peso à desmama
+pd<-round(pd, digits = 1)
+pd
+```
+
+Em uma simulação é sempre desejável guardar todos os componentes trabalhados em um data frame:
+
+```{r dadosDIC}
+
+dic<-data.frame(pd = pd, trat = trat, raca = raca, res = e)
+dic
+
+```
+
+Para uma avaliação rápida dos dados simulados:
+
+```{r avalDIC}
+
+dic$trat<-as.factor(dic$trat) 
+summary(dic)  
+
+message("A variância de PD é: ", var(dic$pd)) 
+```
+
+A média de PD parece razoável, entretanto, a variância de PD está muito abaixo do que estipulou-se inicialmente $(400 kg^2)$. Isso aconteceu porque a variância dos efeitos fixos, pela reduzido tamanho da amostra, foi menor do que a variância desejada $(320kg^2)$. Veremos, posteriormente, alternativas para o contorno do problema, mas, de qualquer forma, vamos analizar os dados simulados.
+
+#### Análise dos dados
+
+No R, para análise estatística dos dados, pode-se proceder imediatamente com o seguinte código:
+
+```{r anaDIC}
+
+#análise de variância
+modDIC<-aov(dic$pd ~ dic$trat)
+anova(modDIC)
+```
+
+Uma vez que o resultado da ANOVA foi não significativo $(p > 0.05)$, de modo geral, não seguería-se para testes de comparação múltipla. Entretanto, para fins de demonstração, um teste de Tukey será realizado.
+
+```{r testeTukey}
+suppressPackageStartupMessages(library(emmeans))
+suppressPackageStartupMessages(library(multcomp))
+
+#calculando as médias
+mediasTrat<-emmeans(modDIC, ~ trat)
+
+#Painel com letras para significância
+cld(mediasTrat, adjust = "tukey", Letter = letters)
+```
+
+Entretanto, na simulação pretendía-se ter significância estatística entre os efeitos de tratamentos. Como seria possível conseguir esse resultado?
+
+O problema surgiu porque a variância entre raças (tratamentos) foi menor do que desejado, uma vez que o tamanho da amostra foi pequeno $(n = 3)$. Por consequência, variação de PD também baixa.
+
+Tem-se três alternativas para sair desta dificuldade:
+
+1.  Gerar amostras consecutivas até que os resultados sejam significativos. Este procedimento garante resultados significativos mas pode distorcer a variância utilizada para a simulação dos efeitos fixos.
+2.  Gerar amostras diferentes até que a variação entre efeitos fixos seja próxima a variância especificada para simulação destes efeitos. A proximidade pode ser especificada por níveis de tolerância inferior e superior. Por esse procedimento, embora não se tenha garantia da significância, as chances são bastante aumentadas.
+3.  Ajustar, manualmente, os valores dos efeitos fixos de forma que se consiga a dispersão com valor próximo ao desejado ou a significância dos efeitos de tratamentos.
+
+Caso seja necessário colocar os dados em um arquivo para análise em outros softwares, deve-se notar que as duas primeiras colunas, *pd* e *trat* são aquelas que tería-se caso o experimento real fosse realizado. Dessa forma, para gerar um arquivo para abrir em planilhas eletrônicas ou em texto simples, pode-se utilizar o seguinte código:
+
+```{r arquivos}
+#| eval: false  
+
+#Planilhas eletrônicas 
+write.table(dic[,c("pd", "trat")], file = "dic.csv", sep = ",", row.names = FALSE)
+#texto simples 
+write.table(dic[,c("pd", "trat")], file = "dic.txt", row.names = FALSE)
+```
+
+Os dados gravados nos arquivos podem ser importados nos formatos especificados por qualquer software de análise de dados.
+
+::: {#thm-reprodutibilidade}
+## Propriedade da Reprodutibilidade
 
 Se $X_1\sim N\left(\mu_1, \sigma_1^2\right)$ e $X_2\sim N\left(\mu_2, \sigma_2^2\right)$
 
@@ -103,6 +240,7 @@ Então para quaisquer constantes *a* e *b*:
 $Y = aX_1 + bX_2 \sim N\left(a\mu_1 + b\mu_2, (a\sigma_1)^2 + (b\sigma_2)^2\right)$
 
 Assim, é fácil de ver que se $e\sim N\left(0, \sigma^2_e\right)$, então $Y\sim N\left(\mu, \sigma_e^2\right)$
+:::
 
 Para iniciarmos a simulação dos dados precisamos definir também quantos níveis serão considerados para o efeito fixo de tratamento $\left(t\right)$.
 
