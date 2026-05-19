@@ -66,7 +66,7 @@ Falar sobre os comandos:
 
 ## Simulações (Nível 1): Dados Experimentais de de Coleta Única
 
-### DIC
+### DIC {#sec-dic}
 
 Para simularmos dados de um Delineamento Inteiramento Casualizado (DIC) devemos definir o modelo e a distribuição de probabilidade associada a cada efeito aleatório.
 
@@ -84,7 +84,17 @@ $t_i =$ efeito do i-ésimo tratamento;
 
 $e_{ij} =$ erro associado à j-ésima observação do i-ésimo tratamento;
 
-São efeitos aleatórios no modelo: $y$ e $e$; $\mu$ e $t$ são considerados efeitos fixos. Portanto, precisamos definir a distribuição dos efeitos aleatórios. A distribuição de $y$ fica definida pela distribuição assumida para $e$, uma vez que é uma combinação linear desse efeito. Assim, se assumirmos que $e$ tem distribuição normal, também o terá $y$.
+São efeitos aleatórios no modelo: $y$ e $e$; $\mu$ e $t$ são considerados efeitos fixos. Portanto, precisamos definir a distribuição dos efeitos aleatórios. Para problemas biológicos, de modo geral, assume-se que $y$ e $e$ tem distribuição normal sendo que:
+
+$$y\sim N\left(\mu, \sigma^2_y\right)$$
+
+$$e\sim N\left(0, \sigma^2_e\right)$$
+
+::: callout-note
+## Nota
+
+A distribuição de $y$ fica definida pela distribuição assumida para $e$, uma vez que é uma combinação linear desse efeito. Assim, se assumirmos que $e$ tem distribuição normal, também o terá $y$.
+:::
 
 Pode-se pensar em dividir a resolução do problema de simular os dados em três partes:
 
@@ -92,15 +102,17 @@ Pode-se pensar em dividir a resolução do problema de simular os dados em três
 2.  Simular os efeitos fixos;
 3.  Calcular a variável resposta ou dependente.
 
-Para fins de apresentação do processo de simulação será assumido que deseja-se simular dados de um experimento no DIC com $3$ tratamentos e $3$ repetições por tratamento. O experimento tem como finalidade avaliar o peso à desmama (PD) de bezerros de três raças diferentes de bovinos (nelore, guzerá e tabapuã). Sendo assim, deve-se simular $9$ observações de peso à desmama. Vamos assumir também que a média de peso à desmama da população de bezerros $\left(\mu_{PD}\right)$ é igual a $200 kg$ e que os tratamentos explicam $80\%$ de toda a variação observada no peso à desmama (variável resposta). Finalmente precisamos assumir também um valor para a variação de peso à desmama $\left(\sigma^2_{PD}\right)$. Este valor pode ser encontrado na literatura ou definido pelo pesquisador. Aqui será assumido $\sigma^2_{PD} = 400$.
+Para fins de apresentação do processo de simulação será considerado que deseja-se simular dados de um experimento no DIC com $3$ tratamentos e $3$ repetições por tratamento. O experimento tem como finalidade avaliar o peso à desmama (PD) de bezerros de três raças diferentes de bovinos (nelore, guzerá e tabapuã). Sendo assim, deve-se simular $9$ observações de peso à desmama. Assume-se que a média de peso à desmama da população de bezerros $\left(\mu_{PD}\right)$ é igual a $200 kg$ e que os tratamentos (raças) explicam $80\%$ de toda a variação observada no peso à desmama (variável resposta). Finalmente, define-se um valor para a variação de peso à desmama $\left(\sigma^2_{PD}\right)$. Este valor pode ser encontrado na literatura ou definido pelo pesquisador. Aqui será assumido $\sigma^2_{PD} = 400kg^2$.
 
 #### Simular os efeitos aleatórios
 
-O efeito aleatório que precisamos gerar é o do resíduo $(e)$. Para isso, devemos definir a distribuição de probabilidade e seus parâmetros. Usualmente, assumimos que os efeitos residuais têm distribuição normal com média $0$ e variância $\sigma_e^2$. Como a variação do peso à desmama é igual a $400$, então $\sigma^2_e = 400 \times 0,2 = 80$.
+O efeito aleatório que precisamos gerar é o do resíduo $(e)$. Para isso, devemos definir a distribuição de probabilidade e seus parâmetros. Usualmente, assumimos que os efeitos residuais têm distribuição normal com média $0$ e variância $\sigma_e^2$. Como a variância do peso à desmama é igual a $400kg^2$, então $\sigma^2_e = 400 \times 0,2 = 80kg^2$.
 
 Gerando os valores no R e armazenando-os no vetor *e*:
 
 ```{r res}
+#| echo: !expr -c(6)
+
 set.seed(6)
 
 e<-rnorm(9, sd = sqrt(80))
@@ -109,11 +121,11 @@ e
 message("A variância dos efeitos residuais é: ", var(e))
 ```
 
-Note que está implicito que a variação residual é considerada a mesma dentro de cada tratamento (raça).
+Note que está implicito que a variação residual é considerada a mesma dentro de cada tratamento (raça), uma vez que os efeitos residuais foram amostrados de uma mesma distribuição.
 
 #### Simular os efeitos fixos
 
-Os efeitos fixos podem ser simulados de maneira semelhante aos efeitos aleatórios. Podemos amostrá-los de uma distribuição de probabilidade e, posteriormente, atribuí-los aos registros que serão simulados. Considere que é razoável assumir que os efeitos de raças tem distribuição normal com média $0$ e variância entre raças $\left(\Phi_{trat} \right)$ igual a $320$ $\left(400 \times 0,8\right)$. Então os efeitos são simulados como:
+Os efeitos fixos podem ser simulados de maneira semelhante aos efeitos aleatórios. Podemos amostrá-los de uma distribuição de probabilidade e, posteriormente, atribuí-los aos registros que serão simulados. Considere que é razoável assumir que os efeitos de tratamentos (raças) possam ser retirados de uma distribuição normal com média $0$ e variação entre raças $\left(\Phi_{rac} \right)$ igual a $320kg^2$ $\left(400 \times 0,8\right)$. Então a simulação segue como:
 
 ```{r fixos}
 set.seed(6)
@@ -124,9 +136,11 @@ fixo
 
 Os efeitos fixos, quando em pequena quantidade, também podem ser atribuídos arbitrariamente pelo pesquisador.
 
-Uma vez definidos os efeitos das raças, deve-se associá-los às $9$ observações que serão simuladas. Vamos considerar que as três primeiras observações serão da raça nelore e as seguintes serão das raças guzerá e tabapuã respectivamente.
+Uma vez definidos os efeitos das raças, deve-se associá-los às $9$ observações que serão simuladas. Considere que as três primeiras observações serão da raça tabapuã e as seguintes serão das raças guzerá e nelore respectivamente.
 
 ```{r atribfixos}
+#| echo: !expr -c(8)
+
 set.seed(6)
 
 raca<-rep(fixo, each = 3)
@@ -134,14 +148,14 @@ raca<-rep(fixo, each = 3)
 raca<-round(raca, digits = 2)
 raca
 
-message("A variância dos efeitos de raça é: ", var(raca))
+message("A medida de variação entre raças é: ", var(raca))
 ```
 
-Agora pode-se criar um vetor com os nomes abreviados das raças na mesma ordem em que foram simulados os efeitos (trat):
+Agora pode-se criar um vetor com os nomes abreviados das raças na mesma ordem em que foram definidos os efeitos (trat):
 
 ```{r racas}
 
-rac<-c("nel", "guz", "tab")
+rac<-c("tab", "guz", "nel")
 
 trat<-rep(rac, each = 3)
 trat
@@ -174,6 +188,7 @@ dic
 Para uma avaliação rápida dos dados simulados:
 
 ```{r avalDIC}
+#| echo: !expr -c(4)
 
 dic$trat<-as.factor(dic$trat) 
 summary(dic)  
@@ -181,7 +196,7 @@ summary(dic)
 message("A variância de PD é: ", var(dic$pd)) 
 ```
 
-A média de PD parece razoável, entretanto, a variância de PD está muito abaixo do que estipulou-se inicialmente $(400 kg^2)$. Isso aconteceu porque a variância dos efeitos fixos, pela reduzido tamanho da amostra, foi menor do que a variância desejada $(320kg^2)$. Veremos, posteriormente, alternativas para o contorno do problema, mas, de qualquer forma, vamos analizar os dados simulados.
+A média de PD parece razoável, entretanto, a variância de PD está muito abaixo do que estipulou-se inicialmente $(400 kg^2)$. Isso aconteceu porque a variação entre os níveis do efeito fixo, pela reduzido tamanho da amostra, foi menor do que a variação desejada $(320kg^2)$. Algumas alternativas para contornar este problema serão apresentadas posteriormente, mas de qualquer forma, vamos analisar os dados simulados de um experimento montado no DIC.
 
 #### Análise dos dados
 
@@ -194,7 +209,7 @@ modDIC<-aov(dic$pd ~ dic$trat)
 anova(modDIC)
 ```
 
-Uma vez que o resultado da ANOVA foi não significativo $(p > 0.05)$, de modo geral, não seguería-se para testes de comparação múltipla. Entretanto, para fins de demonstração, um teste de Tukey será realizado.
+Uma vez que o resultado da ANOVA foi não significativo $(p > 0.05)$, de modo geral, não deve-se seguir para testes de comparação múltipla. Entretanto, para fins de demonstração, um teste de Tukey será realizado.
 
 ```{r testeTukey}
 suppressPackageStartupMessages(library(emmeans))
@@ -207,17 +222,17 @@ mediasTrat<-emmeans(modDIC, ~ trat)
 cld(mediasTrat, adjust = "tukey", Letter = letters)
 ```
 
-Entretanto, na simulação pretendía-se ter significância estatística entre os efeitos de tratamentos. Como seria possível conseguir esse resultado?
+Entretanto, na simulação, dada a magnitude da variância definida para amostrar os níveis de efeitos fixos, esperava-se que existisse significância estatística entre os efeitos das raças.
 
-O problema surgiu porque a variância entre raças (tratamentos) foi menor do que desejado, uma vez que o tamanho da amostra foi pequeno $(n = 3)$. Por consequência, variação de PD também baixa.
+O problema surgiu porque a variação entre raças (tratamentos) foi menor do que o valor de variância assumido para a amostragem dos efeitos. Este resultado ocorreu porque o tamanho da amostra foi pequeno $(n = 3)$. Por consequência, variação de PD também foi baixa.
 
-Tem-se três alternativas para sair desta dificuldade:
+Tem-se três alternativas para amenizar esta dificuldade:
 
-1.  Gerar amostras consecutivas até que os resultados sejam significativos. Este procedimento garante resultados significativos mas pode distorcer a variância utilizada para a simulação dos efeitos fixos.
-2.  Gerar amostras diferentes até que a variação entre efeitos fixos seja próxima a variância especificada para simulação destes efeitos. A proximidade pode ser especificada por níveis de tolerância inferior e superior. Por esse procedimento, embora não se tenha garantia da significância, as chances são bastante aumentadas.
-3.  Ajustar, manualmente, os valores dos efeitos fixos de forma que se consiga a dispersão com valor próximo ao desejado ou a significância dos efeitos de tratamentos.
+1.  Gerar amostras consecutivas até que os resultados sejam significativos. Este procedimento garante significância mas pode produzir medidas de variação com valores distantes dos estipulados no início do processo de simulação.
+2.  Gerar amostras consecutivas até que a variação entre os efeitos fixos seja próxima a variância especificada para simulação destes efeitos. A proximidade pode ser especificada por níveis de tolerância inferior e superior (expressos em porcentagem, por exemplo). Esse procedimento, embora não forneça garantia da significância, aumentam as chances do resultado.
+3.  Ajustar, manualmente, os valores dos efeitos fixos de forma que se consiga a dispersão com valor próximo ao desejado ou a significância dos efeitos de tratamentos. Somente viável para simulações com poucos níveis de efeitos fixos.
 
-Caso seja necessário colocar os dados em um arquivo para análise em outros softwares, deve-se notar que as duas primeiras colunas, *pd* e *trat* são aquelas que tería-se caso o experimento real fosse realizado. Dessa forma, para gerar um arquivo para abrir em planilhas eletrônicas ou em texto simples, pode-se utilizar o seguinte código:
+Caso seja necessário colocar os dados em um arquivo para análise em outros softwares, deve-se notar que as duas primeiras colunas, *pd* e *trat* são aquelas que estariam disponíveis caso o experimento real fosse realizado. Dessa forma, para gerar um arquivo em formato entendido por planilhas eletrônicas ou em texto simples, pode-se utilizar o seguinte código:
 
 ```{r arquivos}
 #| eval: false  
@@ -228,7 +243,7 @@ write.table(dic[,c("pd", "trat")], file = "dic.csv", sep = ",", row.names = FALS
 write.table(dic[,c("pd", "trat")], file = "dic.txt", row.names = FALSE)
 ```
 
-Os dados gravados nos arquivos podem ser importados nos formatos especificados por qualquer software de análise de dados.
+Os dados gravados nos arquivos podem ser importados por qualquer software de análise de dados.
 
 ::: {#thm-reprodutibilidade}
 ## Propriedade da Reprodutibilidade
@@ -242,15 +257,63 @@ $Y = aX_1 + bX_2 \sim N\left(a\mu_1 + b\mu_2, (a\sigma_1)^2 + (b\sigma_2)^2\righ
 Assim, é fácil de ver que se $e\sim N\left(0, \sigma^2_e\right)$, então $Y\sim N\left(\mu, \sigma_e^2\right)$
 :::
 
-Para iniciarmos a simulação dos dados precisamos definir também quantos níveis serão considerados para o efeito fixo de tratamento $\left(t\right)$.
+### DBC
 
-1.  DBC
+A simulação de dados para um experimento delineado em blocos casualizados é muito semelhante àquele apresentado na @sec-dic. A diferença é que tem-se mais um efeito fixo: bloco com $b$ níveis.
 
-2.  DQL
+O modelo para simulação é:
 
-3.  Experimentos Fatoriais
+$$y_{ij} = \mu+t_i+b_j+e_{ij}$$\
+em que,
 
-4.  Coleta (definir modelo)
+$y_{ij} =$ j-ésima observação do i-ésimo tratamento;
+
+$\mu =$ média da variável resposta;
+
+$t_i =$ efeito do i-ésimo tratamento;
+
+$b_j =$ efeito do j-ésimo bloco;
+
+$e_{ij} =$ erro associado à observação do i-ésimo tratamento no j-ésimo bloco;
+
+Assim como na simulação de um experimento no DIC, vamos simular os efeitos aleatórios, efeitos fixos e, finalmente, a variável resposta.
+
+Considere que deseja-se simular dados para um experimento no DBC para avaliar o efeito de três tipos de rações (A, B e C) no ganho de peso (gp) de filhotes de labrador. Os filhotes têm, aproximadamente, $12$ semanas de idade mas com pesos muito diferentes, variando de $5$ a $13kg$. Como o peso inicial tem grande influência no ganho de peso dos animais, essa fonte de variação precisa ser controlada por meio de blocos. Formaram-se $5$ blocos de acordo com os pesos dos filhotes:
+
+$b_1\sim 5kg, \quad b_2\sim 7kg, \quad b_3\sim 9kg, \quad b_4\sim 11kg, \quad b_5\sim 13kg$
+
+Após $6$ semanas os ganhos de peso serão calculados. Estão disponíveis para o experimento 15 filhotes. Considere que a $\mu_{gp} = 3,5kg$ e $\sigma^2_{gp} = 4kg^2$.
+
+#### Simular efeitos aleatórios
+
+O efeito aleatório a ser simulado é o resíduo $(e)$ e como usualmente: $e\sim N(0, \sigma^2_e)$.
+
+O componente de variância será definido como $10\%$ de $\sigma^2_{gp}$ , ou seja, $\sigma^2_e = 0,4kg^2$.
+
+Simulando...
+
+```{r resDBC}
+#| echo: !expr -c(6)
+
+set.seed(27)
+
+e<-rnorm(15, 0, 0.4)
+e
+
+message("Variância de e: ", var(e))
+```
+
+#### Simular efeitos fixos
+
+##### Tratamentos
+
+##### Blocos
+
+3.  DQL
+
+4.  Experimentos Fatoriais
+
+5.  Coleta (definir modelo)
 
 ## Simulações (Nível 2): Dados Experimentais e de Coleta Única com n Características Correlacionados
 

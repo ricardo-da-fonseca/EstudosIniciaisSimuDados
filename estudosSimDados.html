@@ -189,8 +189,8 @@ window.Quarto = {
 </section>
 <section id="simulações-nível-1-dados-experimentais-de-de-coleta-única" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="simulações-nível-1-dados-experimentais-de-de-coleta-única"><span class="header-section-number">5</span> Simulações (Nível 1): Dados Experimentais de de Coleta Única</h2>
-<section id="dic" class="level3" data-number="5.1">
-<h3 data-number="5.1" class="anchored" data-anchor-id="dic"><span class="header-section-number">5.1</span> DIC</h3>
+<section id="sec-dic" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="sec-dic"><span class="header-section-number">5.1</span> DIC</h3>
 <p>Para simularmos dados de um Delineamento Inteiramento Casualizado (DIC) devemos definir o modelo e a distribuição de probabilidade associada a cada efeito aleatório.</p>
 <p>O modelo utilizado no DIC é:</p>
 <p><span id="eq-DIC"><span class="math display">\[y_{ij} = \mu + t_i + e_{ij} \tag{1}\]</span></span></p>
@@ -199,17 +199,32 @@ window.Quarto = {
 <p><span class="math inline">\(\mu =\)</span> média da variável resposta;</p>
 <p><span class="math inline">\(t_i =\)</span> efeito do i-ésimo tratamento;</p>
 <p><span class="math inline">\(e_{ij} =\)</span> erro associado à j-ésima observação do i-ésimo tratamento;</p>
-<p>São efeitos aleatórios no modelo: <span class="math inline">\(y\)</span> e <span class="math inline">\(e\)</span>; <span class="math inline">\(\mu\)</span> e <span class="math inline">\(t\)</span> são considerados efeitos fixos. Portanto, precisamos definir a distribuição dos efeitos aleatórios. A distribuição de <span class="math inline">\(y\)</span> fica definida pela distribuição assumida para <span class="math inline">\(e\)</span>, uma vez que é uma combinação linear desse efeito. Assim, se assumirmos que <span class="math inline">\(e\)</span> tem distribuição normal, também o terá <span class="math inline">\(y\)</span>.</p>
+<p>São efeitos aleatórios no modelo: <span class="math inline">\(y\)</span> e <span class="math inline">\(e\)</span>; <span class="math inline">\(\mu\)</span> e <span class="math inline">\(t\)</span> são considerados efeitos fixos. Portanto, precisamos definir a distribuição dos efeitos aleatórios. Para problemas biológicos, de modo geral, assume-se que <span class="math inline">\(y\)</span> e <span class="math inline">\(e\)</span> tem distribuição normal sendo que:</p>
+<p><span class="math display">\[y\sim N\left(\mu, \sigma^2_y\right)\]</span></p>
+<p><span class="math display">\[e\sim N\left(0, \sigma^2_e\right)\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A distribuição de <span class="math inline">\(y\)</span> fica definida pela distribuição assumida para <span class="math inline">\(e\)</span>, uma vez que é uma combinação linear desse efeito. Assim, se assumirmos que <span class="math inline">\(e\)</span> tem distribuição normal, também o terá <span class="math inline">\(y\)</span>.</p>
+</div>
+</div>
 <p>Pode-se pensar em dividir a resolução do problema de simular os dados em três partes:</p>
 <ol type="1">
 <li>Simular os efeitos aleatórios;</li>
 <li>Simular os efeitos fixos;</li>
 <li>Calcular a variável resposta ou dependente.</li>
 </ol>
-<p>Para fins de apresentação do processo de simulação será assumido que deseja-se simular dados de um experimento no DIC com <span class="math inline">\(3\)</span> tratamentos e <span class="math inline">\(3\)</span> repetições por tratamento. O experimento tem como finalidade avaliar o peso à desmama (PD) de bezerros de três raças diferentes de bovinos (nelore, guzerá e tabapuã). Sendo assim, deve-se simular <span class="math inline">\(9\)</span> observações de peso à desmama. Vamos assumir também que a média de peso à desmama da população de bezerros <span class="math inline">\(\left(\mu_{PD}\right)\)</span> é igual a <span class="math inline">\(200 kg\)</span> e que os tratamentos explicam <span class="math inline">\(80\%\)</span> de toda a variação observada no peso à desmama (variável resposta). Finalmente precisamos assumir também um valor para a variação de peso à desmama <span class="math inline">\(\left(\sigma^2_{PD}\right)\)</span>. Este valor pode ser encontrado na literatura ou definido pelo pesquisador. Aqui será assumido <span class="math inline">\(\sigma^2_{PD} = 400\)</span>.</p>
+<p>Para fins de apresentação do processo de simulação será considerado que deseja-se simular dados de um experimento no DIC com <span class="math inline">\(3\)</span> tratamentos e <span class="math inline">\(3\)</span> repetições por tratamento. O experimento tem como finalidade avaliar o peso à desmama (PD) de bezerros de três raças diferentes de bovinos (nelore, guzerá e tabapuã). Sendo assim, deve-se simular <span class="math inline">\(9\)</span> observações de peso à desmama. Assume-se que a média de peso à desmama da população de bezerros <span class="math inline">\(\left(\mu_{PD}\right)\)</span> é igual a <span class="math inline">\(200 kg\)</span> e que os tratamentos (raças) explicam <span class="math inline">\(80\%\)</span> de toda a variação observada no peso à desmama (variável resposta). Finalmente, define-se um valor para a variação de peso à desmama <span class="math inline">\(\left(\sigma^2_{PD}\right)\)</span>. Este valor pode ser encontrado na literatura ou definido pelo pesquisador. Aqui será assumido <span class="math inline">\(\sigma^2_{PD} = 400kg^2\)</span>.</p>
 <section id="simular-os-efeitos-aleatórios" class="level4" data-number="5.1.1">
 <h4 data-number="5.1.1" class="anchored" data-anchor-id="simular-os-efeitos-aleatórios"><span class="header-section-number">5.1.1</span> Simular os efeitos aleatórios</h4>
-<p>O efeito aleatório que precisamos gerar é o do resíduo <span class="math inline">\((e)\)</span>. Para isso, devemos definir a distribuição de probabilidade e seus parâmetros. Usualmente, assumimos que os efeitos residuais têm distribuição normal com média <span class="math inline">\(0\)</span> e variância <span class="math inline">\(\sigma_e^2\)</span>. Como a variação do peso à desmama é igual a <span class="math inline">\(400\)</span>, então <span class="math inline">\(\sigma^2_e = 400 \times 0,2 = 80\)</span>.</p>
+<p>O efeito aleatório que precisamos gerar é o do resíduo <span class="math inline">\((e)\)</span>. Para isso, devemos definir a distribuição de probabilidade e seus parâmetros. Usualmente, assumimos que os efeitos residuais têm distribuição normal com média <span class="math inline">\(0\)</span> e variância <span class="math inline">\(\sigma_e^2\)</span>. Como a variância do peso à desmama é igual a <span class="math inline">\(400kg^2\)</span>, então <span class="math inline">\(\sigma^2_e = 400 \times 0,2 = 80kg^2\)</span>.</p>
 <p>Gerando os valores no R e armazenando-os no vetor <em>e</em>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
@@ -220,50 +235,48 @@ window.Quarto = {
 <pre><code>[1]   2.4114292  -5.6347608   7.7695297  15.4485063   0.2163408   3.2917173
 [7] -11.7098792   6.6064354   0.4013562</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"A variância dos efeitos residuais é: "</span>, <span class="fu">var</span>(e))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>A variância dos efeitos residuais é: 61.1403853422217</code></pre>
 </div>
 </div>
-<p>Note que está implicito que a variação residual é considerada a mesma dentro de cada tratamento (raça).</p>
+<p>Note que está implicito que a variação residual é considerada a mesma dentro de cada tratamento (raça), uma vez que os efeitos residuais foram amostrados de uma mesma distribuição.</p>
 </section>
 <section id="simular-os-efeitos-fixos" class="level4" data-number="5.1.2">
 <h4 data-number="5.1.2" class="anchored" data-anchor-id="simular-os-efeitos-fixos"><span class="header-section-number">5.1.2</span> Simular os efeitos fixos</h4>
-<p>Os efeitos fixos podem ser simulados de maneira semelhante aos efeitos aleatórios. Podemos amostrá-los de uma distribuição de probabilidade e, posteriormente, atribuí-los aos registros que serão simulados. Considere que é razoável assumir que os efeitos de raças tem distribuição normal com média <span class="math inline">\(0\)</span> e variância entre raças <span class="math inline">\(\left(\Phi_{trat} \right)\)</span> igual a <span class="math inline">\(320\)</span> <span class="math inline">\(\left(400 \times 0,8\right)\)</span>. Então os efeitos são simulados como:</p>
+<p>Os efeitos fixos podem ser simulados de maneira semelhante aos efeitos aleatórios. Podemos amostrá-los de uma distribuição de probabilidade e, posteriormente, atribuí-los aos registros que serão simulados. Considere que é razoável assumir que os efeitos de tratamentos (raças) possam ser retirados de uma distribuição normal com média <span class="math inline">\(0\)</span> e variação entre raças <span class="math inline">\(\left(\Phi_{rac} \right)\)</span> igual a <span class="math inline">\(320kg^2\)</span> <span class="math inline">\(\left(400 \times 0,8\right)\)</span>. Então a simulação segue como:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>fixo<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">3</span>, <span class="at">sd =</span> <span class="fu">sqrt</span>(<span class="dv">320</span>))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>fixo</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>fixo<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">3</span>, <span class="at">sd =</span> <span class="fu">sqrt</span>(<span class="dv">320</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>fixo</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]   4.822858 -11.269522  15.539059</code></pre>
 </div>
 </div>
 <p>Os efeitos fixos, quando em pequena quantidade, também podem ser atribuídos arbitrariamente pelo pesquisador.</p>
-<p>Uma vez definidos os efeitos das raças, deve-se associá-los às <span class="math inline">\(9\)</span> observações que serão simuladas. Vamos considerar que as três primeiras observações serão da raça nelore e as seguintes serão das raças guzerá e tabapuã respectivamente.</p>
+<p>Uma vez definidos os efeitos das raças, deve-se associá-los às <span class="math inline">\(9\)</span> observações que serão simuladas. Considere que as três primeiras observações serão da raça tabapuã e as seguintes serão das raças guzerá e nelore respectivamente.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>raca<span class="ot">&lt;-</span><span class="fu">rep</span>(fixo, <span class="at">each =</span> <span class="dv">3</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>raca<span class="ot">&lt;-</span><span class="fu">round</span>(raca, <span class="at">digits =</span> <span class="dv">2</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>raca</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>raca<span class="ot">&lt;-</span><span class="fu">rep</span>(fixo, <span class="at">each =</span> <span class="dv">3</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>raca<span class="ot">&lt;-</span><span class="fu">round</span>(raca, <span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>raca</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]   4.82   4.82   4.82 -11.27 -11.27 -11.27  15.54  15.54  15.54</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"A variância dos efeitos de raça é: "</span>, <span class="fu">var</span>(raca))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>A variância dos efeitos de raça é: 136.572825</code></pre>
+<pre><code>A medida de variação entre raças é: 136.572825</code></pre>
 </div>
 </div>
-<p>Agora pode-se criar um vetor com os nomes abreviados das raças na mesma ordem em que foram simulados os efeitos (trat):</p>
+<p>Agora pode-se criar um vetor com os nomes abreviados das raças na mesma ordem em que foram definidos os efeitos (trat):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rac<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">"nel"</span>, <span class="st">"guz"</span>, <span class="st">"tab"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>trat<span class="ot">&lt;-</span><span class="fu">rep</span>(rac, <span class="at">each =</span> <span class="dv">3</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>trat</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rac<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">"tab"</span>, <span class="st">"guz"</span>, <span class="st">"nel"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>trat<span class="ot">&lt;-</span><span class="fu">rep</span>(rac, <span class="at">each =</span> <span class="dv">3</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>trat</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "nel" "nel" "nel" "guz" "guz" "guz" "tab" "tab" "tab"</code></pre>
+<pre><code>[1] "tab" "tab" "tab" "guz" "guz" "guz" "nel" "nel" "nel"</code></pre>
 </div>
 </div>
 </section>
@@ -271,38 +284,38 @@ window.Quarto = {
 <h4 data-number="5.1.3" class="anchored" data-anchor-id="simular-as-observações"><span class="header-section-number">5.1.3</span> Simular as observações</h4>
 <p>Finalmente as observações do experimento podem ser simuladas, bastando somar os vetores de efeitos gerados com a média da variável resposta de acordo com o modelo <a href="#eq-DIC" class="quarto-xref">1</a> .</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mediaPD<span class="ot">&lt;-</span><span class="dv">200</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>pd<span class="ot">&lt;-</span>mediaPD <span class="sc">+</span> raca <span class="sc">+</span> e</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#arredondando os valores e peso à desmama</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>pd<span class="ot">&lt;-</span><span class="fu">round</span>(pd, <span class="at">digits =</span> <span class="dv">1</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>pd</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mediaPD<span class="ot">&lt;-</span><span class="dv">200</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>pd<span class="ot">&lt;-</span>mediaPD <span class="sc">+</span> raca <span class="sc">+</span> e</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">#arredondando os valores e peso à desmama</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>pd<span class="ot">&lt;-</span><span class="fu">round</span>(pd, <span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>pd</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 207.2 199.2 212.6 204.2 188.9 192.0 203.8 222.1 215.9</code></pre>
 </div>
 </div>
 <p>Em uma simulação é sempre desejável guardar todos os componentes trabalhados em um data frame:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dic<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">pd =</span> pd, <span class="at">trat =</span> trat, <span class="at">raca =</span> raca, <span class="at">res =</span> e)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>dic</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dic<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">pd =</span> pd, <span class="at">trat =</span> trat, <span class="at">raca =</span> raca, <span class="at">res =</span> e)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dic</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     pd trat   raca         res
-1 207.2  nel   4.82   2.4114292
-2 199.2  nel   4.82  -5.6347608
-3 212.6  nel   4.82   7.7695297
+1 207.2  tab   4.82   2.4114292
+2 199.2  tab   4.82  -5.6347608
+3 212.6  tab   4.82   7.7695297
 4 204.2  guz -11.27  15.4485063
 5 188.9  guz -11.27   0.2163408
 6 192.0  guz -11.27   3.2917173
-7 203.8  tab  15.54 -11.7098792
-8 222.1  tab  15.54   6.6064354
-9 215.9  tab  15.54   0.4013562</code></pre>
+7 203.8  nel  15.54 -11.7098792
+8 222.1  nel  15.54   6.6064354
+9 215.9  nel  15.54   0.4013562</code></pre>
 </div>
 </div>
 <p>Para uma avaliação rápida dos dados simulados:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dic<span class="sc">$</span>trat<span class="ot">&lt;-</span><span class="fu">as.factor</span>(dic<span class="sc">$</span>trat) </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dic)  </span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dic<span class="sc">$</span>trat<span class="ot">&lt;-</span><span class="fu">as.factor</span>(dic<span class="sc">$</span>trat) </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dic)  </span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       pd         trat        raca             res          
  Min.   :188.9   guz:3   Min.   :-11.27   Min.   :-11.7099  
@@ -312,20 +325,19 @@ window.Quarto = {
  3rd Qu.:212.6           3rd Qu.: 15.54   3rd Qu.:  6.6064  
  Max.   :222.1           Max.   : 15.54   Max.   : 15.4485  </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"A variância de PD é: "</span>, <span class="fu">var</span>(dic<span class="sc">$</span>pd)) </span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>A variância de PD é: 117.2075</code></pre>
 </div>
 </div>
-<p>A média de PD parece razoável, entretanto, a variância de PD está muito abaixo do que estipulou-se inicialmente <span class="math inline">\((400 kg^2)\)</span>. Isso aconteceu porque a variância dos efeitos fixos, pela reduzido tamanho da amostra, foi menor do que a variância desejada <span class="math inline">\((320kg^2)\)</span>. Veremos, posteriormente, alternativas para o contorno do problema, mas, de qualquer forma, vamos analizar os dados simulados.</p>
+<p>A média de PD parece razoável, entretanto, a variância de PD está muito abaixo do que estipulou-se inicialmente <span class="math inline">\((400 kg^2)\)</span>. Isso aconteceu porque a variação entre os níveis do efeito fixo, pela reduzido tamanho da amostra, foi menor do que a variação desejada <span class="math inline">\((320kg^2)\)</span>. Algumas alternativas para contornar este problema serão apresentadas posteriormente, mas de qualquer forma, vamos analisar os dados simulados de um experimento montado no DIC.</p>
 </section>
 <section id="análise-dos-dados" class="level4" data-number="5.1.4">
 <h4 data-number="5.1.4" class="anchored" data-anchor-id="análise-dos-dados"><span class="header-section-number">5.1.4</span> Análise dos dados</h4>
 <p>No R, para análise estatística dos dados, pode-se proceder imediatamente com o seguinte código:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#análise de variância</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>modDIC<span class="ot">&lt;-</span><span class="fu">aov</span>(dic<span class="sc">$</span>pd <span class="sc">~</span> dic<span class="sc">$</span>trat)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modDIC)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#análise de variância</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>modDIC<span class="ot">&lt;-</span><span class="fu">aov</span>(dic<span class="sc">$</span>pd <span class="sc">~</span> dic<span class="sc">$</span>trat)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modDIC)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -337,16 +349,16 @@ Residuals  6 395.00  65.833
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<p>Uma vez que o resultado da ANOVA foi não significativo <span class="math inline">\((p &gt; 0.05)\)</span>, de modo geral, não seguería-se para testes de comparação múltipla. Entretanto, para fins de demonstração, um teste de Tukey será realizado.</p>
+<p>Uma vez que o resultado da ANOVA foi não significativo <span class="math inline">\((p &gt; 0.05)\)</span>, de modo geral, não deve-se seguir para testes de comparação múltipla. Entretanto, para fins de demonstração, um teste de Tukey será realizado.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(emmeans))</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(multcomp))</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">#calculando as médias</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>mediasTrat<span class="ot">&lt;-</span><span class="fu">emmeans</span>(modDIC, <span class="sc">~</span> trat)</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Painel com letras para significância</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cld</span>(mediasTrat, <span class="at">adjust =</span> <span class="st">"tukey"</span>, <span class="at">Letter =</span> letters)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(emmeans))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(multcomp))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#calculando as médias</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>mediasTrat<span class="ot">&lt;-</span><span class="fu">emmeans</span>(modDIC, <span class="sc">~</span> trat)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Painel com letras para significância</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cld</span>(mediasTrat, <span class="at">adjust =</span> <span class="st">"tukey"</span>, <span class="at">Letter =</span> letters)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Note: adjust = "tukey" was changed to "sidak"
 because "tukey" is only appropriate for one set of pairwise comparisons</code></pre>
@@ -354,8 +366,8 @@ because "tukey" is only appropriate for one set of pairwise comparisons</code></
 <div class="cell-output cell-output-stdout">
 <pre><code> trat emmean   SE df lower.CL upper.CL .group
  guz     195 4.68  6      180      210  a    
- nel     206 4.68  6      191      222  a    
- tab     214 4.68  6      199      229  a    
+ tab     206 4.68  6      191      222  a    
+ nel     214 4.68  6      199      229  a    
 
 Confidence level used: 0.95 
 Conf-level adjustment: sidak method for 3 estimates 
@@ -366,35 +378,78 @@ NOTE: If two or more means share the same grouping symbol,
       But we also did not show them to be the same. </code></pre>
 </div>
 </div>
-<p>Entretanto, na simulação pretendía-se ter significância estatística entre os efeitos de tratamentos. Como seria possível conseguir esse resultado?</p>
-<p>O problema surgiu porque a variância entre raças (tratamentos) foi menor do que desejado, uma vez que o tamanho da amostra foi pequeno <span class="math inline">\((n = 3)\)</span>. Por consequência, variação de PD também baixa.</p>
-<p>Tem-se três alternativas para sair desta dificuldade:</p>
+<p>Entretanto, na simulação, dada a magnitude da variância definida para amostrar os níveis de efeitos fixos, esperava-se que existisse significância estatística entre os efeitos das raças.</p>
+<p>O problema surgiu porque a variação entre raças (tratamentos) foi menor do que o valor de variância assumido para a amostragem dos efeitos. Este resultado ocorreu porque o tamanho da amostra foi pequeno <span class="math inline">\((n = 3)\)</span>. Por consequência, variação de PD também foi baixa.</p>
+<p>Tem-se três alternativas para amenizar esta dificuldade:</p>
 <ol type="1">
-<li>Gerar amostras consecutivas até que os resultados sejam significativos. Este procedimento garante resultados significativos mas pode distorcer a variância utilizada para a simulação dos efeitos fixos.</li>
-<li>Gerar amostras diferentes até que a variação entre efeitos fixos seja próxima a variância especificada para simulação destes efeitos. A proximidade pode ser especificada por níveis de tolerância inferior e superior. Por esse procedimento, embora não se tenha garantia da significância, as chances são bastante aumentadas.</li>
-<li>Ajustar, manualmente, os valores dos efeitos fixos de forma que se consiga a dispersão com valor próximo ao desejado ou a significância dos efeitos de tratamentos.</li>
+<li>Gerar amostras consecutivas até que os resultados sejam significativos. Este procedimento garante significância mas pode produzir medidas de variação com valores distantes dos estipulados no início do processo de simulação.</li>
+<li>Gerar amostras consecutivas até que a variação entre os efeitos fixos seja próxima a variância especificada para simulação destes efeitos. A proximidade pode ser especificada por níveis de tolerância inferior e superior (expressos em porcentagem, por exemplo). Esse procedimento, embora não forneça garantia da significância, aumentam as chances do resultado.</li>
+<li>Ajustar, manualmente, os valores dos efeitos fixos de forma que se consiga a dispersão com valor próximo ao desejado ou a significância dos efeitos de tratamentos. Somente viável para simulações com poucos níveis de efeitos fixos.</li>
 </ol>
-<p>Caso seja necessário colocar os dados em um arquivo para análise em outros softwares, deve-se notar que as duas primeiras colunas, <em>pd</em> e <em>trat</em> são aquelas que tería-se caso o experimento real fosse realizado. Dessa forma, para gerar um arquivo para abrir em planilhas eletrônicas ou em texto simples, pode-se utilizar o seguinte código:</p>
+<p>Caso seja necessário colocar os dados em um arquivo para análise em outros softwares, deve-se notar que as duas primeiras colunas, <em>pd</em> e <em>trat</em> são aquelas que estariam disponíveis caso o experimento real fosse realizado. Dessa forma, para gerar um arquivo em formato entendido por planilhas eletrônicas ou em texto simples, pode-se utilizar o seguinte código:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Planilhas eletrônicas </span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(dic[,<span class="fu">c</span>(<span class="st">"pd"</span>, <span class="st">"trat"</span>)], <span class="at">file =</span> <span class="st">"dic.csv"</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#texto simples </span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(dic[,<span class="fu">c</span>(<span class="st">"pd"</span>, <span class="st">"trat"</span>)], <span class="at">file =</span> <span class="st">"dic.txt"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Planilhas eletrônicas </span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(dic[,<span class="fu">c</span>(<span class="st">"pd"</span>, <span class="st">"trat"</span>)], <span class="at">file =</span> <span class="st">"dic.csv"</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#texto simples </span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(dic[,<span class="fu">c</span>(<span class="st">"pd"</span>, <span class="st">"trat"</span>)], <span class="at">file =</span> <span class="st">"dic.txt"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Os dados gravados nos arquivos podem ser importados nos formatos especificados por qualquer software de análise de dados.</p>
+<p>Os dados gravados nos arquivos podem ser importados por qualquer software de análise de dados.</p>
 <div id="thm-reprodutibilidade" class="theorem">
 <p><span class="theorem-title"><strong>Teorema 1 (Propriedade da Reprodutibilidade)</strong></span> Se <span class="math inline">\(X_1\sim N\left(\mu_1, \sigma_1^2\right)\)</span> e <span class="math inline">\(X_2\sim N\left(\mu_2, \sigma_2^2\right)\)</span></p>
 <p>Então para quaisquer constantes <em>a</em> e <em>b</em>:</p>
 <p><span class="math inline">\(Y = aX_1 + bX_2 \sim N\left(a\mu_1 + b\mu_2, (a\sigma_1)^2 + (b\sigma_2)^2\right)\)</span></p>
 <p>Assim, é fácil de ver que se <span class="math inline">\(e\sim N\left(0, \sigma^2_e\right)\)</span>, então <span class="math inline">\(Y\sim N\left(\mu, \sigma_e^2\right)\)</span></p>
 </div>
-<p>Para iniciarmos a simulação dos dados precisamos definir também quantos níveis serão considerados para o efeito fixo de tratamento <span class="math inline">\(\left(t\right)\)</span>.</p>
-<ol type="1">
-<li><p>DBC</p></li>
+</section>
+</section>
+<section id="dbc" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="dbc"><span class="header-section-number">5.2</span> DBC</h3>
+<p>A simulação de dados para um experimento delineado em blocos casualizados é muito semelhante àquele apresentado na <a href="#sec-dic" class="quarto-xref">Seção&nbsp;5.1</a>. A diferença é que tem-se mais um efeito fixo: bloco com <span class="math inline">\(b\)</span> níveis.</p>
+<p>O modelo para simulação é:</p>
+<p><span class="math display">\[y_{ij} = \mu+t_i+b_j+e_{ij}\]</span><br>
+em que,</p>
+<p><span class="math inline">\(y_{ij} =\)</span> j-ésima observação do i-ésimo tratamento;</p>
+<p><span class="math inline">\(\mu =\)</span> média da variável resposta;</p>
+<p><span class="math inline">\(t_i =\)</span> efeito do i-ésimo tratamento;</p>
+<p><span class="math inline">\(b_j =\)</span> efeito do j-ésimo bloco;</p>
+<p><span class="math inline">\(e_{ij} =\)</span> erro associado à observação do i-ésimo tratamento no j-ésimo bloco;</p>
+<p>Assim como na simulação de um experimento no DIC, vamos simular os efeitos aleatórios, efeitos fixos e, finalmente, a variável resposta.</p>
+<p>Considere que deseja-se simular dados para um experimento no DBC para avaliar o efeito de três tipos de rações (A, B e C) no ganho de peso (gp) de filhotes de labrador. Os filhotes têm, aproximadamente, <span class="math inline">\(12\)</span> semanas de idade mas com pesos muito diferentes, variando de <span class="math inline">\(5\)</span> a <span class="math inline">\(13kg\)</span>. Como o peso inicial tem grande influência no ganho de peso dos animais, essa fonte de variação precisa ser controlada por meio de blocos. Formaram-se <span class="math inline">\(5\)</span> blocos de acordo com os pesos dos filhotes:</p>
+<p><span class="math inline">\(b_1\sim 5kg, \quad b_2\sim 7kg, \quad b_3\sim 9kg, \quad b_4\sim 11kg, \quad b_5\sim 13kg\)</span></p>
+<p>Após <span class="math inline">\(6\)</span> semanas os ganhos de peso serão calculados. Estão disponíveis para o experimento 15 filhotes. Considere que a <span class="math inline">\(\mu_{gp} = 3,5kg\)</span> e <span class="math inline">\(\sigma^2_{gp} = 4kg^2\)</span>.</p>
+<section id="simular-efeitos-aleatórios" class="level4" data-number="5.2.1">
+<h4 data-number="5.2.1" class="anchored" data-anchor-id="simular-efeitos-aleatórios"><span class="header-section-number">5.2.1</span> Simular efeitos aleatórios</h4>
+<p>O efeito aleatório a ser simulado é o resíduo <span class="math inline">\((e)\)</span> e como usualmente: <span class="math inline">\(e\sim N(0, \sigma^2_e)\)</span>.</p>
+<p>O componente de variância será definido como <span class="math inline">\(10\%\)</span> de <span class="math inline">\(\sigma^2_{gp}\)</span> , ou seja, <span class="math inline">\(\sigma^2_e = 0,4kg^2\)</span>.</p>
+<p>Simulando…</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">27</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>e<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">15</span>, <span class="dv">0</span>, <span class="fl">0.4</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>e</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  0.762865026  0.457950756 -0.305812295 -0.582973001 -0.437387552
+ [6]  0.118096487  0.002754377  0.462964354  0.853855156  0.095137845
+[11] -0.514050943  0.013930899  0.628118137  0.063204020 -0.298319789</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Variância de e: 0.215608876515654</code></pre>
+</div>
+</div>
+</section>
+<section id="simular-efeitos-fixos" class="level4" data-number="5.2.2">
+<h4 data-number="5.2.2" class="anchored" data-anchor-id="simular-efeitos-fixos"><span class="header-section-number">5.2.2</span> Simular efeitos fixos</h4>
+<section id="tratamentos" class="level5" data-number="5.2.2.1">
+<h5 data-number="5.2.2.1" class="anchored" data-anchor-id="tratamentos"><span class="header-section-number">5.2.2.1</span> Tratamentos</h5>
+</section>
+<section id="blocos" class="level5" data-number="5.2.2.2">
+<h5 data-number="5.2.2.2" class="anchored" data-anchor-id="blocos"><span class="header-section-number">5.2.2.2</span> Blocos</h5>
+<ol start="3" type="1">
 <li><p>DQL</p></li>
 <li><p>Experimentos Fatoriais</p></li>
 <li><p>Coleta (definir modelo)</p></li>
 </ol>
+</section>
 </section>
 </section>
 </section>
