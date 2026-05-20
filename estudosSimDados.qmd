@@ -379,6 +379,7 @@ gp
 
 ```
 
+<<<<<<< HEAD
 Antes da construção do arquivo de dados simulados, deve armazenar todas a informações simuladas em um data frame:
 
 ```{r dfDBC}
@@ -398,6 +399,9 @@ write.csv(dadosDBC[,c("trat", "blocos", "gp")], row.names = FALSE, file = "dbc.c
 write.table(dadosDBC[,c("trat", "blocos", "gp")], sep = " ", row.names = FALSE, file = "dbc.txt")
 
 ```
+=======
+O
+>>>>>>> 4fe387ef505c76ec546c9e14aa39e6bd774a6c00
 
 4.  DQL
 
