@@ -196,7 +196,7 @@ summary(dic)
 message("A variância de PD é: ", var(dic$pd)) 
 ```
 
-A média de PD parece razoável, entretanto, a variância de PD está muito abaixo do que estipulou-se inicialmente $(400 kg^2)$. Isso aconteceu porque a variação entre os níveis do efeito fixo, pela reduzido tamanho da amostra, foi menor do que a variação desejada $(320kg^2)$. Algumas alternativas para contornar este problema serão apresentadas posteriormente, mas de qualquer forma, vamos analisar os dados simulados de um experimento montado no DIC.
+A média de PD parece razoável, entretanto, a variância de PD está muito abaixo do que estipulou-se inicialmente $(400 kg^2)$. Isso aconteceu porque a variação entre os níveis do efeito fixo, pela reduzido tamanho da amostra, foi menor do que a variação desejada $(320kg^2)$. Algumas alternativas para contornar este problema serão apresentadas ao final da seção, mas de qualquer forma, vamos analisar os dados simulados de um experimento montado no DIC.
 
 #### Análise dos dados
 
@@ -222,15 +222,21 @@ mediasTrat<-emmeans(modDIC, ~ trat)
 cld(mediasTrat, adjust = "tukey", Letter = letters)
 ```
 
-Entretanto, na simulação, dada a magnitude da variância definida para amostrar os níveis de efeitos fixos, esperava-se que existisse significância estatística entre os efeitos das raças.
+::: callout-note
+## Alternativas para ajuste das variações de amostras pequenas
 
-O problema surgiu porque a variação entre raças (tratamentos) foi menor do que o valor de variância assumido para a amostragem dos efeitos. Este resultado ocorreu porque o tamanho da amostra foi pequeno $(n = 3)$. Por consequência, variação de PD também foi baixa.
+*(Leitura opcional)*
 
-Tem-se três alternativas para amenizar esta dificuldade:
+Na simulação, da [@sec-dic], dada a magnitude da variância definida para amostrar os níveis de efeitos fixos, esperava-se que existisse significância estatística entre os efeitos das raças.
+
+O problema surgiu porque a variação entre raças (tratamentos) foi menor do que o valor de variância definido para a amostragem dos efeitos. Este resultado ocorreu porque o tamanho da amostra foi pequeno $(n = 3)$ e, por consequência, variação de PD também foi baixa.
+
+Tem-se três alternativas para contornar esta dificuldade:
 
 1.  Gerar amostras consecutivas até que os resultados sejam significativos. Este procedimento garante significância mas pode produzir medidas de variação com valores distantes dos estipulados no início do processo de simulação.
-2.  Gerar amostras consecutivas até que a variação entre os efeitos fixos seja próxima a variância especificada para simulação destes efeitos. A proximidade pode ser especificada por níveis de tolerância inferior e superior (expressos em porcentagem, por exemplo). Esse procedimento, embora não forneça garantia da significância, aumentam as chances do resultado.
-3.  Ajustar, manualmente, os valores dos efeitos fixos de forma que se consiga a dispersão com valor próximo ao desejado ou a significância dos efeitos de tratamentos. Somente viável para simulações com poucos níveis de efeitos fixos.
+2.  Gerar amostras consecutivas até que a variação entre os efeitos fixos seja próxima a variância especificada para simulação destes efeitos. A proximidade pode ser especificada por níveis de tolerância inferior e superior (expressos em porcentagem, por exemplo). Esse procedimento, embora não forneça garantia da significância, aumenta as chances do resultado significativo.
+3.  Ajustar, manualmente, os valores dos efeitos fixos de forma que se consiga a dispersão com valor próximo ao desejado ou a significância dos efeitos de tratamentos. Somente é viável para simulações com poucos níveis de efeitos fixos.
+:::
 
 Caso seja necessário colocar os dados em um arquivo para análise em outros softwares, deve-se notar que as duas primeiras colunas, *pd* e *trat* são aquelas que estariam disponíveis caso o experimento real fosse realizado. Dessa forma, para gerar um arquivo em formato entendido por planilhas eletrônicas ou em texto simples, pode-se utilizar o seguinte código:
 
@@ -263,7 +269,7 @@ A simulação de dados para um experimento delineado em blocos casualizados é m
 
 O modelo para simulação é:
 
-$$y_{ij} = \mu+t_i+b_j+e_{ij}$$\
+$$y_{ij} = \mu+t_i+b_j+e_{ij}$$ {#eq-DBC}\
 em que,
 
 $y_{ij} =$ j-ésima observação do i-ésimo tratamento;
@@ -307,13 +313,91 @@ message("Variância de e: ", var(e))
 
 ##### Tratamentos
 
+Deve-se simular 3 níveis de tratamentos (rações). O mesmo procedimento da @sec-dic será utilizado, considerando que: $t\sim N\left(0, \sigma^2_t\right)$ e $\sigma^2_t$ explica $40\%$ de toda a variação observada, ou seja, $\sigma^2_t = 4 \times 0,4 = 1,6kg^2$. Assim,
+
+```{r tratDBC}
+#| echo: !expr -c(6)
+
+set.seed(27)
+
+t<-rnorm(3, 0, sqrt(1.6))
+t
+
+message("A variação entre os níveis de tratamentos é: ", var(t))
+
+```
+
+Percebe-se que a medida de variação entre tratamentos foi maior do que a especificada $(1,6kg^2)$. Novamente, a explicação é o pequeno tamanho da amostra.
+
+Cada efeito de tratamento é repetido $5$ vezes e portanto o vetor de efeitos de tratamentos (rações) e o vetor de identficadores é:
+
+```{r rações}
+
+#vetor de efeitos de tratamentos
+efeitost<-round(rep(t, times = 5), 2)
+efeitost
+
+#vetor de indicadores de efeitos de tratamentos
+trat<-rep(LETTERS[1:3], times = 5)
+trat
+```
+
 ##### Blocos
 
-3.  DQL
+O procedimento para geração dos efeitos de blocos é análogo ao dos tratamentos, pois ambos são efeitos fixos. Para a simulação considera-se que a variação entre blocos explica $50\%$ da variação total observada no ganho de peso dos indivíduos e portanto, $\sigma^2_b = \sigma^2_{gp} \times 0,5 = 2kg^2$.
 
-4.  Experimentos Fatoriais
+```{r blocosDBC}
+#| echo: !expr -c(6)
 
-5.  Coleta (definir modelo)
+set.seed(27)
+
+b<-rnorm(5, 0, sqrt(2))
+b
+
+message("A variação entre os níveis de blocos é: ", var(b))
+
+```
+
+Aqui também percebe-se que a variação entre níveis de blocos foi maior do que a especificada na simulação $(2kg^2)$.
+
+Agora constrói-se os vetores de efeitos com seus respectivos indicadores com a condição de que cada tratamento deve aparecer uma vez associado a cada um dos níveis de bloco. Deve-se lembrar como foi construído o vetor de tratamentos para se simular o vetor de blocos (efeitos e identificadores).
+
+```{r blocos}
+
+#vetor de efeitos de blocos
+efeitosb<-round(rep(b, each = 3), 2)
+efeitosb
+
+#vetor de identificadores de blocos
+idblocos<-paste0("b", 1:5)
+idblocos
+
+blocos<-rep(idblocos, each = 3)
+blocos
+
+```
+
+#### Simular as observações
+
+As observações são geradas pela soma dos efeitos especificados no modelo [-@eq-DBC].
+
+Assim:
+
+```{r gp}
+
+gp<-3.5 + efeitost + efeitosb + e
+gp<-round(gp, 1)
+gp
+
+```
+
+O
+
+4.  DQL
+
+5.  Experimentos Fatoriais
+
+6.  Coleta (definir modelo)
 
 ## Simulações (Nível 2): Dados Experimentais e de Coleta Única com n Características Correlacionados
 

@@ -329,7 +329,7 @@ window.Quarto = {
 <pre><code>A variância de PD é: 117.2075</code></pre>
 </div>
 </div>
-<p>A média de PD parece razoável, entretanto, a variância de PD está muito abaixo do que estipulou-se inicialmente <span class="math inline">\((400 kg^2)\)</span>. Isso aconteceu porque a variação entre os níveis do efeito fixo, pela reduzido tamanho da amostra, foi menor do que a variação desejada <span class="math inline">\((320kg^2)\)</span>. Algumas alternativas para contornar este problema serão apresentadas posteriormente, mas de qualquer forma, vamos analisar os dados simulados de um experimento montado no DIC.</p>
+<p>A média de PD parece razoável, entretanto, a variância de PD está muito abaixo do que estipulou-se inicialmente <span class="math inline">\((400 kg^2)\)</span>. Isso aconteceu porque a variação entre os níveis do efeito fixo, pela reduzido tamanho da amostra, foi menor do que a variação desejada <span class="math inline">\((320kg^2)\)</span>. Algumas alternativas para contornar este problema serão apresentadas ao final da seção, mas de qualquer forma, vamos analisar os dados simulados de um experimento montado no DIC.</p>
 </section>
 <section id="análise-dos-dados" class="level4" data-number="5.1.4">
 <h4 data-number="5.1.4" class="anchored" data-anchor-id="análise-dos-dados"><span class="header-section-number">5.1.4</span> Análise dos dados</h4>
@@ -378,14 +378,27 @@ NOTE: If two or more means share the same grouping symbol,
       But we also did not show them to be the same. </code></pre>
 </div>
 </div>
-<p>Entretanto, na simulação, dada a magnitude da variância definida para amostrar os níveis de efeitos fixos, esperava-se que existisse significância estatística entre os efeitos das raças.</p>
-<p>O problema surgiu porque a variação entre raças (tratamentos) foi menor do que o valor de variância assumido para a amostragem dos efeitos. Este resultado ocorreu porque o tamanho da amostra foi pequeno <span class="math inline">\((n = 3)\)</span>. Por consequência, variação de PD também foi baixa.</p>
-<p>Tem-se três alternativas para amenizar esta dificuldade:</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Alternativas para ajuste das variações de amostras pequenas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>(Leitura opcional)</em></p>
+<p>Na simulação, da <a href="#sec-dic" class="quarto-xref">Seção&nbsp;5.1</a>, dada a magnitude da variância definida para amostrar os níveis de efeitos fixos, esperava-se que existisse significância estatística entre os efeitos das raças.</p>
+<p>O problema surgiu porque a variação entre raças (tratamentos) foi menor do que o valor de variância definido para a amostragem dos efeitos. Este resultado ocorreu porque o tamanho da amostra foi pequeno <span class="math inline">\((n = 3)\)</span> e, por consequência, variação de PD também foi baixa.</p>
+<p>Tem-se três alternativas para contornar esta dificuldade:</p>
 <ol type="1">
 <li>Gerar amostras consecutivas até que os resultados sejam significativos. Este procedimento garante significância mas pode produzir medidas de variação com valores distantes dos estipulados no início do processo de simulação.</li>
-<li>Gerar amostras consecutivas até que a variação entre os efeitos fixos seja próxima a variância especificada para simulação destes efeitos. A proximidade pode ser especificada por níveis de tolerância inferior e superior (expressos em porcentagem, por exemplo). Esse procedimento, embora não forneça garantia da significância, aumentam as chances do resultado.</li>
-<li>Ajustar, manualmente, os valores dos efeitos fixos de forma que se consiga a dispersão com valor próximo ao desejado ou a significância dos efeitos de tratamentos. Somente viável para simulações com poucos níveis de efeitos fixos.</li>
+<li>Gerar amostras consecutivas até que a variação entre os efeitos fixos seja próxima a variância especificada para simulação destes efeitos. A proximidade pode ser especificada por níveis de tolerância inferior e superior (expressos em porcentagem, por exemplo). Esse procedimento, embora não forneça garantia da significância, aumenta as chances do resultado significativo.</li>
+<li>Ajustar, manualmente, os valores dos efeitos fixos de forma que se consiga a dispersão com valor próximo ao desejado ou a significância dos efeitos de tratamentos. Somente é viável para simulações com poucos níveis de efeitos fixos.</li>
 </ol>
+</div>
+</div>
 <p>Caso seja necessário colocar os dados em um arquivo para análise em outros softwares, deve-se notar que as duas primeiras colunas, <em>pd</em> e <em>trat</em> são aquelas que estariam disponíveis caso o experimento real fosse realizado. Dessa forma, para gerar um arquivo em formato entendido por planilhas eletrônicas ou em texto simples, pode-se utilizar o seguinte código:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Planilhas eletrônicas </span></span>
@@ -406,7 +419,7 @@ NOTE: If two or more means share the same grouping symbol,
 <h3 data-number="5.2" class="anchored" data-anchor-id="dbc"><span class="header-section-number">5.2</span> DBC</h3>
 <p>A simulação de dados para um experimento delineado em blocos casualizados é muito semelhante àquele apresentado na <a href="#sec-dic" class="quarto-xref">Seção&nbsp;5.1</a>. A diferença é que tem-se mais um efeito fixo: bloco com <span class="math inline">\(b\)</span> níveis.</p>
 <p>O modelo para simulação é:</p>
-<p><span class="math display">\[y_{ij} = \mu+t_i+b_j+e_{ij}\]</span><br>
+<p><span id="eq-DBC"><span class="math display">\[y_{ij} = \mu+t_i+b_j+e_{ij} \tag{2}\]</span></span><br>
 em que,</p>
 <p><span class="math inline">\(y_{ij} =\)</span> j-ésima observação do i-ésimo tratamento;</p>
 <p><span class="math inline">\(\mu =\)</span> média da variável resposta;</p>
@@ -441,15 +454,94 @@ em que,</p>
 <h4 data-number="5.2.2" class="anchored" data-anchor-id="simular-efeitos-fixos"><span class="header-section-number">5.2.2</span> Simular efeitos fixos</h4>
 <section id="tratamentos" class="level5" data-number="5.2.2.1">
 <h5 data-number="5.2.2.1" class="anchored" data-anchor-id="tratamentos"><span class="header-section-number">5.2.2.1</span> Tratamentos</h5>
+<p>Deve-se simular 3 níveis de tratamentos (rações). O mesmo procedimento da <a href="#sec-dic" class="quarto-xref">Seção&nbsp;5.1</a> será utilizado, considerando que: <span class="math inline">\(t\sim N\left(0, \sigma^2_t\right)\)</span> e <span class="math inline">\(\sigma^2_t\)</span> explica <span class="math inline">\(40\%\)</span> de toda a variação observada, ou seja, <span class="math inline">\(\sigma^2_t = 4 \times 0,4 = 1,6kg^2\)</span>. Assim,</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">27</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>t<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">3</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="fl">1.6</span>))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>t</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  2.4123910  1.4481674 -0.9670634</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>A variação entre os níveis de tratamentos é: 3.03062987508446</code></pre>
+</div>
+</div>
+<p>Percebe-se que a medida de variação entre tratamentos foi maior do que a especificada <span class="math inline">\((1,6kg^2)\)</span>. Novamente, a explicação é o pequeno tamanho da amostra.</p>
+<p>Cada efeito de tratamento é repetido <span class="math inline">\(5\)</span> vezes e portanto o vetor de efeitos de tratamentos (rações) e o vetor de identficadores é:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de efeitos de tratamentos</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>efeitost<span class="ot">&lt;-</span><span class="fu">round</span>(<span class="fu">rep</span>(t, <span class="at">times =</span> <span class="dv">5</span>), <span class="dv">2</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>efeitost</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  2.41  1.45 -0.97  2.41  1.45 -0.97  2.41  1.45 -0.97  2.41  1.45 -0.97
+[13]  2.41  1.45 -0.97</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de indicadores de efeitos de tratamentos</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>trat<span class="ot">&lt;-</span><span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">times =</span> <span class="dv">5</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>trat</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "A" "B" "C" "A" "B" "C" "A" "B" "C" "A" "B" "C" "A" "B" "C"</code></pre>
+</div>
+</div>
 </section>
 <section id="blocos" class="level5" data-number="5.2.2.2">
 <h5 data-number="5.2.2.2" class="anchored" data-anchor-id="blocos"><span class="header-section-number">5.2.2.2</span> Blocos</h5>
-<ol start="3" type="1">
+<p>O procedimento para geração dos efeitos de blocos é análogo ao dos tratamentos, pois ambos são efeitos fixos. Para a simulação considera-se que a variação entre blocos explica <span class="math inline">\(50\%\)</span> da variação total observada no ganho de peso dos indivíduos e portanto, <span class="math inline">\(\sigma^2_b = \sigma^2_{gp} \times 0,5 = 2kg^2\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">27</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>b<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="dv">2</span>))</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>b</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  2.697135  1.619100 -1.081210 -2.061121 -1.546399</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>A variação entre os níveis de blocos é: 4.41921397055421</code></pre>
+</div>
+</div>
+<p>Aqui também percebe-se que a variação entre níveis de blocos foi maior do que a especificada na simulação <span class="math inline">\((2kg^2)\)</span>.</p>
+<p>Agora constrói-se os vetores de efeitos com seus respectivos indicadores com a condição de que cada tratamento deve aparecer uma vez associado a cada um dos níveis de bloco. Deve-se lembrar como foi construído o vetor de tratamentos para se simular o vetor de blocos (efeitos e identificadores).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de efeitos de blocos</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>efeitosb<span class="ot">&lt;-</span><span class="fu">round</span>(<span class="fu">rep</span>(b, <span class="at">each =</span> <span class="dv">3</span>), <span class="dv">2</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>efeitosb</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  2.70  2.70  2.70  1.62  1.62  1.62 -1.08 -1.08 -1.08 -2.06 -2.06 -2.06
+[13] -1.55 -1.55 -1.55</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de identificadores de blocos</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>idblocos<span class="ot">&lt;-</span><span class="fu">paste0</span>(<span class="st">"b"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>idblocos</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "b1" "b2" "b3" "b4" "b5"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>blocos<span class="ot">&lt;-</span><span class="fu">rep</span>(idblocos, <span class="at">each =</span> <span class="dv">3</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>blocos</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "b1" "b1" "b1" "b2" "b2" "b2" "b3" "b3" "b3" "b4" "b4" "b4" "b5" "b5" "b5"</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="simular-as-observações-1" class="level4" data-number="5.2.3">
+<h4 data-number="5.2.3" class="anchored" data-anchor-id="simular-as-observações-1"><span class="header-section-number">5.2.3</span> Simular as observações</h4>
+<p>As observações são geradas pela soma dos efeitos especificados no modelo <a href="#eq-DBC" class="quarto-xref">2</a>.</p>
+<p>Assim:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>gp<span class="ot">&lt;-</span><span class="fl">3.5</span> <span class="sc">+</span> efeitost <span class="sc">+</span> efeitosb <span class="sc">+</span> e</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>gp<span class="ot">&lt;-</span><span class="fu">round</span>(gp, <span class="dv">1</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>gp</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 9.4 8.1 4.9 6.9 6.1 4.3 4.8 4.3 2.3 3.9 2.4 0.5 5.0 3.5 0.7</code></pre>
+</div>
+</div>
+<p>O</p>
+<ol start="4" type="1">
 <li><p>DQL</p></li>
 <li><p>Experimentos Fatoriais</p></li>
 <li><p>Coleta (definir modelo)</p></li>
 </ol>
-</section>
 </section>
 </section>
 </section>
