@@ -212,9 +212,11 @@ anova(modDIC)
 Uma vez que o resultado da ANOVA foi não significativo $(p > 0.05)$, de modo geral, não deve-se seguir para testes de comparação múltipla. Entretanto, para fins de demonstração, um teste de Tukey será realizado.
 
 ```{r testeTukey}
-suppressPackageStartupMessages(library(emmeans))
-suppressPackageStartupMessages(library(multcomp))
+#| warning: false
 
+library(emmeans)
+library(multcomp)
+        
 #calculando as médias
 mediasTrat<-emmeans(modDIC, ~ trat)
 
@@ -378,6 +380,7 @@ gp<-round(gp, 1)
 gp
 
 ```
+
 Antes da construção do arquivo de dados simulados, deve armazenar todas a informações simuladas em um data frame:
 
 ```{r dfDBC}
@@ -398,13 +401,219 @@ write.table(dadosDBC[,c("trat", "blocos", "gp")], sep = " ", row.names = FALSE, 
 
 ```
 
+### DQL
 
+No delineamento em quadrados latinos temos duas fontes de variação a serem controladas e portanto, dois blocos. Portanto a simulação de dados de um experimento montado no DQL segue o esquema apresentado nas seções anteriores. Os dados podem ser organizados de acordo com as fontes de variação que se deseja controlar, organizando-os como uma tabela com $n$ linhas e $n$ colunas. Nesse delineamento o número de níveis de tratamento é igual ao número de linhas e colunas, ou seja, igual ao número de níveis dos blocos. Assim, teremos também o número de tratamentos igual a $n$.
 
-4.  DQL
+O modelo estatístico de um experimento em quadrado latino é:
 
-5.  Experimentos Fatoriais
+$$y_{ijk} = \mu+t_i+l_j+c_k+e_{ijk}$$\
+em que,
 
-6.  Coleta (definir modelo)
+$y_{ijk} =$ observação do i-ésimo tratamento na j-ésima linha e k-ésima coluna;
+
+$\mu =$ média da variável resposta;
+
+$t_i =$ efeito do i-ésimo tratamento;
+
+$l_j =$ efeito da l-ésima linha;
+
+$c_k =$ efeito da k-ésima coluna;
+
+$e_{ijk} =$ erro associado à observação do i-ésimo tratamento na j-ésima linha e k-ésima coluna.
+
+#### Exercício
+
+Um exercício guiado será utilizado para a simulação de um experimento no delineamento quadrado latino.
+
+Considere o experimento em que se deseja estudar a influência da inclusão de cinco novas fontes de fibra na ração de vacas leiteiras (tratamentos). Para verificar o efeito, o consumo de matéria seca (kg/dia) será medido. Para realizar o experimento o pesquisador dispõe de cinco animais de genética/raça diferente (linhas) que serão medidos em diferentes lactações (colunas). Os efeitos de tratamentos, linhas e colunas devem ser considerados fixos.
+
+Informações:
+
+- Raças: Holandesa (hol), Gir (gir), Pardo-suiça (ps), Hereford (her), Girolando (gh);
+
+- Lactações: da primeira à quinta lactações (l1, l2, l3, l4, l5);
+
+- $\mu_{cms} = 21,95(kg/dia)$;
+
+- $\sigma^2_{cms} = 3,78(kg/dia)^2$;
+
+- $\sigma^2_e = 0,07\sigma^2_{cms}$;
+
+- $\sigma^2_{trat} = 0,3\sigma^2_{cms};\quad \sigma^2_l = 0,33\sigma^2_{cms};\quad \sigma^2_c = 0,3\sigma^2_{cms}$.
+
+Faça a simulação do dados do experimento seguindo os passos:
+
+1.  Simule os efeitos aleatórios;
+
+    ```{r eDQL}
+    #| echo: !expr -c(6)
+    set.seed(134)
+
+    e<-rnorm(25, 0, sqrt(0.07*3.78))
+    e
+
+    message("Variância de e: ", var(e))
+
+    ```
+
+2.  Simule os efeitos da genética dos animais (linhas) e os indicadores;
+
+    ```{r linhas}
+    #| echo: !expr -c(6)
+
+    set.seed(134)
+
+    linhas<-rnorm(5, 0, sqrt(0.33*3.78))
+    linhas
+
+    message("A medida de variação entre os níveis de raça é: ", var(linhas))
+    ```
+
+    ```{r idlinhas}
+
+    #vetor de efeitos de raças
+    efracas<-round(rep(linhas, 5), 2)
+    efracas
+
+    #vetor de identificadores dos efeitos das raças
+    raca<-rep(c("her", "hol", "gh", "ps", "gir"), 5)
+    raca
+
+    ```
+
+3.  Simule os efeitos da número da lactação dos animais (colunas) e os indicadores;
+
+    ```{r colunas}
+    #| echo: !expr -c(6)
+
+    set.seed(134)
+
+    colunas<-rnorm(5, 0, sqrt(0.3*3.78))
+    colunas
+
+    message("A medida de variação entre os níveis de número da lactação é: " , var(colunas))
+    ```
+
+    ```{r idcolunas}
+
+    #vetor de efeitos de número da lactação
+    numlac<-round(rep(colunas, each = 5), 2)
+    numlac
+
+    #vetor de identificadores dos efeitos das lactações
+    lact<-rep(paste0("l", 1:5), each = 5)
+    lact
+    ```
+
+4.  Simule os efeitos de tratamentos e crie os identificadores;
+
+    ```{r trat}
+    #| echo: !expr -c(6)
+
+    set.seed(134)
+
+    trat<-rnorm(5, 0, sqrt(0.3*3.78))
+    trat
+
+    message("A medida de variação entre os níveis de tratamento é: ", var(trat))
+    ```
+
+    ```{r idtrat}
+
+    #vetor dos efeitos de tratamentos
+    eftrat<-round(rep(trat, length(trat)), 2)
+    eftrat
+
+    #vetor dos identificadores dos tratamentos
+    idtrat<-rep(LETTERS[1:5], 5)
+    idtrat
+
+    ```
+
+Antes de criar a variável resposta deve-se observar que cada tratamento pode estar associado somente com uma única linha e uma única coluna. Dessa forma, os indicadores com os respectivos efeitos precisam ser rearranjados para cumprir essa condição. Será utilizada a função *tratDQL* para essa finalidade. O código da função está disponibilizado no anexo II.
+
+5.  Simule a variável resposta;
+
+    ```{r cms}
+
+    cms<-21.95+eftrat+efracas+numlac+e
+    cms<-round(cms, 1)
+    cms
+
+    ```
+
+6.  Armazene todos os dados da simulação em um data.frame;
+
+    ```{r dadosDQL}
+
+    dadosDQL<-data.frame(cms = cms, eftrat = eftrat, trat = idtrat, efracas = efracas, racas = raca, eflac = numlac, lact = lact, e = e)
+    dadosDQL
+    ```
+
+7.  Crie arquivos do tipo csv e txt para serem utilizados em outros softwares de análise de dados.
+
+    ```{r arquivosDQL}
+
+    #Para planilhas eletrônicas
+    write.csv(dadosDQL[,c("trat", "racas", "lact", "cms")], row.names = FALSE, file = "dql.csv")
+
+    #Para editores de texto
+    write.table(dadosDQL[,c("trat", "racas", "lact", "cms")], sep = " ", row.names = FALSE, file = "dql.txt")
+    ```
+
+    ## Experimentos Fatoriais
+
+    Na simulação de dados para experimentos fatoriais, a novidade em relação às simulações anteriores é a presença do efeito da interação entre níveis dos fatores considerados. Os tratamentos são formados pelas combinações dos níveis desses fatores.
+
+    O modelo estatístico para um experimento fatorial conduzido no DIC é:
+
+    $$y_{ijk} = \mu + a_i + b_j + (ab)_{ij} + e_{ijk}$$\
+    em que,
+
+    $y_{ijk} =$ k-ésima observação do i-ésimo nível do fator *a* e j-ésimo nível do fator *b*;
+
+    $\mu =$ média da variável resposta;
+
+    $a_i =$ efeito do i-ésimo nível do fator *a*;
+
+    $b_j =$ efeito da j-ésimo nível do fator *b*;
+
+    $(ab)_{ij} =$ efeito da interação entre o i-ésimo nível do fator *a* e o j-ésimo nível do fator *b*;
+
+    $e_{ijk} =$ erro associado à k-ésima observação do i-ésimo nível do fator *a* e j-ésimo nível do fator *b*.
+
+    Simular os efeitos e indicadores dos níveis de *a* e *b* é idêntico a simular as linhas e colunas de um DIC ou simular tratamentos e blocos de um DBC.
+
+    Para fins de ilustração, considera-se um experimento fatorial 3x2 com suínos, ou seja, com tratamentos formados pela combinação de 3 níveis do fator a (fontes de proteína) com 2 níveis do fator b (sexo dos animais). Os níveis para fontes de proteína são: farelo de Soja (FS), farelo de algodão (FA) e concentrado protéico do soro do leite (CL). Os níveis para sexo são: machos castrados (M) e fêmeas (F). Deseja-se avaliar o efeito dos tratamentos no ganho de peso médio diário (GPMD) em um ensaio de 42 dias. Cada tratamento será repetido 5 vezes e tem-se um total de 30 unidades experimentais/observações. A média da população para GPMD $\left(\mu_{GPMD}\right)$ será considerada igual a $800g/dia$. A variância de GPMD $\left(\sigma^2_{GPMD}\right)$ é igual a $6400g^2/dia^2$ .
+
+    Assim, inicia-se a simulação de dados pelos efeitos aleatórios do modelo, como de costume.
+
+    1.  Simulação dos efeitos residuais
+
+        Assume-se que a variância residual será 30% de $\sigma^2_{GPMD}$. Assim,
+
+        \
+        $$\begin{align}
+        \sigma^2_e &= 0,3\times \sigma^2_{GPMD} &\\
+        &= 0,3\times 6400 &\\
+        &= 1920 &
+        \end{align}$$
+
+        ```{r eFat}
+
+        e<-rnorm(30, 0, sqrt(1920))
+        e
+        ```
+
+    Agora, em ordem, serão simulados os efeitos dos níveis de *a*, de *b* e das interações.
+
+    2.  Simulação dos efeitos dos níveis do fator fonte de proteína
+    3.  Simulação dos níveis do fator sexo
+    4.  Simulação dos efeitos de interação
+    5.  Simulação dos dados
+
+8.  Coleta (definir modelo)
 
 ## Simulações (Nível 2): Dados Experimentais e de Coleta Única com n Características Correlacionados
 
@@ -430,3 +639,21 @@ write.table(dadosDBC[,c("trat", "blocos", "gp")], sep = " ", row.names = FALSE, 
 
 1.  Linkage desiquilibrium
 2.  Equilíbrio mutação - deriva genética
+
+## ANEXOS {.unnumbered}
+
+### ANEXO I {.unnumbered}
+
+Código da função ajustaVar
+
+```{r ajustaVar}
+
+```
+
+### ANEXO II {.unnumbered}
+
+Código da função tratDQL
+
+```{r ajustaTrat}
+
+```

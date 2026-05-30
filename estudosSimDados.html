@@ -351,18 +351,14 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>Uma vez que o resultado da ANOVA foi não significativo <span class="math inline">\((p &gt; 0.05)\)</span>, de modo geral, não deve-se seguir para testes de comparação múltipla. Entretanto, para fins de demonstração, um teste de Tukey será realizado.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(emmeans))</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(multcomp))</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#calculando as médias</span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>mediasTrat<span class="ot">&lt;-</span><span class="fu">emmeans</span>(modDIC, <span class="sc">~</span> trat)</span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Painel com letras para significância</span></span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cld</span>(mediasTrat, <span class="at">adjust =</span> <span class="st">"tukey"</span>, <span class="at">Letter =</span> letters)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Note: adjust = "tukey" was changed to "sidak"
-because "tukey" is only appropriate for one set of pairwise comparisons</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code> trat emmean   SE df lower.CL upper.CL .group
  guz     195 4.68  6      180      210  a    
@@ -401,10 +397,10 @@ NOTE: If two or more means share the same grouping symbol,
 </div>
 <p>Caso seja necessário colocar os dados em um arquivo para análise em outros softwares, deve-se notar que as duas primeiras colunas, <em>pd</em> e <em>trat</em> são aquelas que estariam disponíveis caso o experimento real fosse realizado. Dessa forma, para gerar um arquivo em formato entendido por planilhas eletrônicas ou em texto simples, pode-se utilizar o seguinte código:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Planilhas eletrônicas </span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(dic[,<span class="fu">c</span>(<span class="st">"pd"</span>, <span class="st">"trat"</span>)], <span class="at">file =</span> <span class="st">"dic.csv"</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#texto simples </span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(dic[,<span class="fu">c</span>(<span class="st">"pd"</span>, <span class="st">"trat"</span>)], <span class="at">file =</span> <span class="st">"dic.txt"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Planilhas eletrônicas </span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(dic[,<span class="fu">c</span>(<span class="st">"pd"</span>, <span class="st">"trat"</span>)], <span class="at">file =</span> <span class="st">"dic.csv"</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#texto simples </span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(dic[,<span class="fu">c</span>(<span class="st">"pd"</span>, <span class="st">"trat"</span>)], <span class="at">file =</span> <span class="st">"dic.txt"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Os dados gravados nos arquivos podem ser importados por qualquer software de análise de dados.</p>
 </section>
@@ -430,10 +426,10 @@ em que,</p>
 <p>O componente de variância será definido como <span class="math inline">\(10\%\)</span> de <span class="math inline">\(\sigma^2_{gp}\)</span> , ou seja, <span class="math inline">\(\sigma^2_e = 0,4kg^2\)</span>.</p>
 <p>Simulando…</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">27</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>e<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">15</span>, <span class="dv">0</span>, <span class="fl">0.4</span>)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>e</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">27</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>e<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">15</span>, <span class="dv">0</span>, <span class="fl">0.4</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>e</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  0.762865026  0.457950756 -0.305812295 -0.582973001 -0.437387552
  [6]  0.118096487  0.002754377  0.462964354  0.853855156  0.095137845
@@ -450,10 +446,10 @@ em que,</p>
 <h5 data-number="5.2.2.1" class="anchored" data-anchor-id="tratamentos"><span class="header-section-number">5.2.2.1</span> Tratamentos</h5>
 <p>Deve-se simular 3 níveis de tratamentos (rações). O mesmo procedimento da <a href="#sec-dic" class="quarto-xref">Seção&nbsp;5.1</a> será utilizado, considerando que: <span class="math inline">\(t\sim N\left(0, \sigma^2_t\right)\)</span> e <span class="math inline">\(\sigma^2_t\)</span> explica <span class="math inline">\(40\%\)</span> de toda a variação observada, ou seja, <span class="math inline">\(\sigma^2_t = 4 \times 0,4 = 1,6kg^2\)</span>. Assim,</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">27</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>t<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">3</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="fl">1.6</span>))</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>t</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">27</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>t<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">3</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="fl">1.6</span>))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>t</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  2.4123910  1.4481674 -0.9670634</code></pre>
 </div>
@@ -464,16 +460,16 @@ em que,</p>
 <p>Percebe-se que a medida de variação entre tratamentos foi maior do que a especificada <span class="math inline">\((1,6kg^2)\)</span>. Novamente, a explicação é o pequeno tamanho da amostra.</p>
 <p>Cada efeito de tratamento é repetido <span class="math inline">\(5\)</span> vezes e portanto o vetor de efeitos de tratamentos (rações) e o vetor de identficadores é:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de efeitos de tratamentos</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>efeitost<span class="ot">&lt;-</span><span class="fu">round</span>(<span class="fu">rep</span>(t, <span class="at">times =</span> <span class="dv">5</span>), <span class="dv">2</span>)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>efeitost</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de efeitos de tratamentos</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>efeitost<span class="ot">&lt;-</span><span class="fu">round</span>(<span class="fu">rep</span>(t, <span class="at">times =</span> <span class="dv">5</span>), <span class="dv">2</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>efeitost</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  2.41  1.45 -0.97  2.41  1.45 -0.97  2.41  1.45 -0.97  2.41  1.45 -0.97
 [13]  2.41  1.45 -0.97</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de indicadores de efeitos de tratamentos</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>trat<span class="ot">&lt;-</span><span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">times =</span> <span class="dv">5</span>)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>trat</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de indicadores de efeitos de tratamentos</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>trat<span class="ot">&lt;-</span><span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">times =</span> <span class="dv">5</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>trat</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "A" "B" "C" "A" "B" "C" "A" "B" "C" "A" "B" "C" "A" "B" "C"</code></pre>
 </div>
@@ -483,10 +479,10 @@ em que,</p>
 <h5 data-number="5.2.2.2" class="anchored" data-anchor-id="blocos"><span class="header-section-number">5.2.2.2</span> Blocos</h5>
 <p>O procedimento para geração dos efeitos de blocos é análogo ao dos tratamentos, pois ambos são efeitos fixos. Para a simulação considera-se que a variação entre blocos explica <span class="math inline">\(50\%\)</span> da variação total observada no ganho de peso dos indivíduos e portanto, <span class="math inline">\(\sigma^2_b = \sigma^2_{gp} \times 0,5 = 2kg^2\)</span>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">27</span>)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>b<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="dv">2</span>))</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>b</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">27</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>b<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="dv">2</span>))</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>b</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  2.697135  1.619100 -1.081210 -2.061121 -1.546399</code></pre>
 </div>
@@ -497,21 +493,21 @@ em que,</p>
 <p>Aqui também percebe-se que a variação entre níveis de blocos foi maior do que a especificada na simulação <span class="math inline">\((2kg^2)\)</span>.</p>
 <p>Agora constrói-se os vetores de efeitos com seus respectivos indicadores com a condição de que cada tratamento deve aparecer uma vez associado a cada um dos níveis de bloco. Deve-se lembrar como foi construído o vetor de tratamentos para se simular o vetor de blocos (efeitos e identificadores).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de efeitos de blocos</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>efeitosb<span class="ot">&lt;-</span><span class="fu">round</span>(<span class="fu">rep</span>(b, <span class="at">each =</span> <span class="dv">3</span>), <span class="dv">2</span>)</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>efeitosb</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de efeitos de blocos</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>efeitosb<span class="ot">&lt;-</span><span class="fu">round</span>(<span class="fu">rep</span>(b, <span class="at">each =</span> <span class="dv">3</span>), <span class="dv">2</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>efeitosb</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  2.70  2.70  2.70  1.62  1.62  1.62 -1.08 -1.08 -1.08 -2.06 -2.06 -2.06
 [13] -1.55 -1.55 -1.55</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de identificadores de blocos</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>idblocos<span class="ot">&lt;-</span><span class="fu">paste0</span>(<span class="st">"b"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>idblocos</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de identificadores de blocos</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>idblocos<span class="ot">&lt;-</span><span class="fu">paste0</span>(<span class="st">"b"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>idblocos</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "b1" "b2" "b3" "b4" "b5"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>blocos<span class="ot">&lt;-</span><span class="fu">rep</span>(idblocos, <span class="at">each =</span> <span class="dv">3</span>)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>blocos</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>blocos<span class="ot">&lt;-</span><span class="fu">rep</span>(idblocos, <span class="at">each =</span> <span class="dv">3</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>blocos</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "b1" "b1" "b1" "b2" "b2" "b2" "b3" "b3" "b3" "b4" "b4" "b4" "b5" "b5" "b5"</code></pre>
 </div>
@@ -523,17 +519,17 @@ em que,</p>
 <p>As observações são geradas pela soma dos efeitos especificados no modelo <a href="#eq-DBC" class="quarto-xref">2</a>.</p>
 <p>Assim:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>gp<span class="ot">&lt;-</span><span class="fl">3.5</span> <span class="sc">+</span> efeitost <span class="sc">+</span> efeitosb <span class="sc">+</span> e</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>gp<span class="ot">&lt;-</span><span class="fu">round</span>(gp, <span class="dv">1</span>)</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>gp</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>gp<span class="ot">&lt;-</span><span class="fl">3.5</span> <span class="sc">+</span> efeitost <span class="sc">+</span> efeitosb <span class="sc">+</span> e</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>gp<span class="ot">&lt;-</span><span class="fu">round</span>(gp, <span class="dv">1</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>gp</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 9.4 8.1 4.9 6.9 6.1 4.3 4.8 4.3 2.3 3.9 2.4 0.5 5.0 3.5 0.7</code></pre>
 </div>
 </div>
 <p>Antes da construção do arquivo de dados simulados, deve armazenar todas a informações simuladas em um data frame:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>dadosDBC<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">eftrat =</span> efeitost, <span class="at">trat =</span> trat, <span class="at">efblocos =</span> efeitosb, <span class="at">blocos =</span> blocos, <span class="at">e =</span> e, <span class="at">gp =</span> gp)</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>dadosDBC</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>dadosDBC<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">eftrat =</span> efeitost, <span class="at">trat =</span> trat, <span class="at">efblocos =</span> efeitosb, <span class="at">blocos =</span> blocos, <span class="at">e =</span> e, <span class="at">gp =</span> gp)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>dadosDBC</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   eftrat trat efblocos blocos            e  gp
 1    2.41    A     2.70     b1  0.762865026 9.4
@@ -555,54 +551,295 @@ em que,</p>
 </div>
 <p>O arquivo de dados simulados a ser submetido para análise em outros softwares de avaliação genética pode então ser construído:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Para planilhas eletrônicas</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(dadosDBC[,<span class="fu">c</span>(<span class="st">"trat"</span>, <span class="st">"blocos"</span>, <span class="st">"gp"</span>)], <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">file =</span> <span class="st">"dbc.csv"</span>)</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Para editores de texto</span></span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(dadosDBC[,<span class="fu">c</span>(<span class="st">"trat"</span>, <span class="st">"blocos"</span>, <span class="st">"gp"</span>)], <span class="at">sep =</span> <span class="st">" "</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">file =</span> <span class="st">"dbc.txt"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Para planilhas eletrônicas</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(dadosDBC[,<span class="fu">c</span>(<span class="st">"trat"</span>, <span class="st">"blocos"</span>, <span class="st">"gp"</span>)], <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">file =</span> <span class="st">"dbc.csv"</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Para editores de texto</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(dadosDBC[,<span class="fu">c</span>(<span class="st">"trat"</span>, <span class="st">"blocos"</span>, <span class="st">"gp"</span>)], <span class="at">sep =</span> <span class="st">" "</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">file =</span> <span class="st">"dbc.txt"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<ol start="4" type="1">
-<li><p>DQL</p></li>
-<li><p>Experimentos Fatoriais</p></li>
+</section>
+</section>
+<section id="dql" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored"><span class="header-section-number">5.3</span> DQL</h3>
+<p>No delineamento em quadrados latinos temos duas fontes de variação a serem controladas e portanto, dois blocos. Portanto a simulação de dados de um experimento montado no DQL segue o esquema apresentado nas seções anteriores. Os dados podem ser organizados de acordo com as fontes de variação que se deseja controlar, organizando-os como uma tabela com <span class="math inline">\(n\)</span> linhas e <span class="math inline">\(n\)</span> colunas. Nesse delineamento o número de níveis de tratamento é igual ao número de linhas e colunas, ou seja, igual ao número de níveis dos blocos. Assim, teremos também o número de tratamentos igual a <span class="math inline">\(n\)</span>.</p>
+<p>O modelo estatístico de um experimento em quadrado latino é:</p>
+<p><span class="math display">\[y_{ijk} = \mu+t_i+l_j+c_k+e_{ijk}\]</span><br>
+em que,</p>
+<p><span class="math inline">\(y_{ijk} =\)</span> observação do i-ésimo tratamento na j-ésima linha e k-ésima coluna;</p>
+<p><span class="math inline">\(\mu =\)</span> média da variável resposta;</p>
+<p><span class="math inline">\(t_i =\)</span> efeito do i-ésimo tratamento;</p>
+<p><span class="math inline">\(l_j =\)</span> efeito da l-ésima linha;</p>
+<p><span class="math inline">\(c_k =\)</span> efeito da k-ésima coluna;</p>
+<p><span class="math inline">\(e_{ijk} =\)</span> erro associado à observação do i-ésimo tratamento na j-ésima linha e k-ésima coluna.</p>
+<section id="exercício" class="level4" data-number="5.3.1">
+<h4 data-number="5.3.1" class="anchored"><span class="header-section-number">5.3.1</span> Exercício</h4>
+<p>Um exercício guiado será utilizado para a simulação de um experimento no delineamento quadrado latino.</p>
+<p>Considere o experimento em que se deseja estudar a influência da inclusão de cinco novas fontes de fibra na ração de vacas leiteiras (tratamentos). Para verificar o efeito, o consumo de matéria seca (kg/dia) será medido. Para realizar o experimento o pesquisador dispõe de cinco animais de genética/raça diferente (linhas) que serão medidos em diferentes lactações (colunas). Os efeitos de tratamentos, linhas e colunas devem ser considerados fixos.</p>
+<p>Informações:</p>
+<ul>
+<li><p>Raças: Holandesa (hol), Gir (gir), Pardo-suiça (ps), Hereford (her), Girolando (gh);</p></li>
+<li><p>Lactações: da primeira à quinta lactações (l1, l2, l3, l4, l5);</p></li>
+<li><p><span class="math inline">\(\mu_{cms} = 21,95(kg/dia)\)</span>;</p></li>
+<li><p><span class="math inline">\(\sigma^2_{cms} = 3,78(kg/dia)^2\)</span>;</p></li>
+<li><p><span class="math inline">\(\sigma^2_e = 0,07\sigma^2_{cms}\)</span>;</p></li>
+<li><p><span class="math inline">\(\sigma^2_{trat} = 0,3\sigma^2_{cms};\quad \sigma^2_l = 0,33\sigma^2_{cms};\quad \sigma^2_c = 0,3\sigma^2_{cms}\)</span>.</p></li>
+</ul>
+<p>Faça a simulação do dados do experimento seguindo os passos:</p>
+<ol type="1">
+<li><p>Simule os efeitos aleatórios;</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">134</span>)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>e<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">25</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="fl">0.07</span><span class="sc">*</span><span class="fl">3.78</span>))</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>e</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -0.43225627  0.60827596  0.14361260 -0.18034758 -0.65744416  0.31709243
+ [7]  0.99401196 -0.02712201  0.13027644  0.71043460  0.60745032 -1.03240299
+[13]  0.29112786  0.18760710  0.66348315  0.52526073 -0.53973583 -0.07169015
+[19] -0.37162295 -1.09901733  0.33109873 -0.76804584  0.75374914 -0.33500990
+[25] -0.07785611</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Variância de e: 0.330604804218947</code></pre>
+</div>
+</div></li>
+<li><p>Simule os efeitos da genética dos animais (linhas) e os indicadores;</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">134</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>linhas<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="fl">0.33</span><span class="sc">*</span><span class="fl">3.78</span>))</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>linhas</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.9385324  1.3207135  0.3118175 -0.3915780 -1.4274694</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>A medida de variação entre os níveis de raça é: 1.16505314624718</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de efeitos de raças</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>efracas<span class="ot">&lt;-</span><span class="fu">round</span>(<span class="fu">rep</span>(linhas, <span class="dv">5</span>), <span class="dv">2</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>efracas</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -0.94  1.32  0.31 -0.39 -1.43 -0.94  1.32  0.31 -0.39 -1.43 -0.94  1.32
+[13]  0.31 -0.39 -1.43 -0.94  1.32  0.31 -0.39 -1.43 -0.94  1.32  0.31 -0.39
+[25] -1.43</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de identificadores dos efeitos das raças</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>raca<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"her"</span>, <span class="st">"hol"</span>, <span class="st">"gh"</span>, <span class="st">"ps"</span>, <span class="st">"gir"</span>), <span class="dv">5</span>)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>raca</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "her" "hol" "gh"  "ps"  "gir" "her" "hol" "gh"  "ps"  "gir" "her" "hol"
+[13] "gh"  "ps"  "gir" "her" "hol" "gh"  "ps"  "gir" "her" "hol" "gh"  "ps" 
+[25] "gir"</code></pre>
+</div>
+</div></li>
+<li><p>Simule os efeitos da número da lactação dos animais (colunas) e os indicadores;</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">134</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>colunas<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="fl">0.3</span><span class="sc">*</span><span class="fl">3.78</span>))</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>colunas</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.8948555  1.2592509  0.2973063 -0.3733550 -1.3610387</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>A medida de variação entre os níveis de número da lactação é: 1.05913922386107</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de efeitos de número da lactação</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>numlac<span class="ot">&lt;-</span><span class="fu">round</span>(<span class="fu">rep</span>(colunas, <span class="at">each =</span> <span class="dv">5</span>), <span class="dv">2</span>)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>numlac</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -0.89 -0.89 -0.89 -0.89 -0.89  1.26  1.26  1.26  1.26  1.26  0.30  0.30
+[13]  0.30  0.30  0.30 -0.37 -0.37 -0.37 -0.37 -0.37 -1.36 -1.36 -1.36 -1.36
+[25] -1.36</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de identificadores dos efeitos das lactações</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>lact<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="fu">paste0</span>(<span class="st">"l"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), <span class="at">each =</span> <span class="dv">5</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>lact</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "l1" "l1" "l1" "l1" "l1" "l2" "l2" "l2" "l2" "l2" "l3" "l3" "l3" "l3" "l3"
+[16] "l4" "l4" "l4" "l4" "l4" "l5" "l5" "l5" "l5" "l5"</code></pre>
+</div>
+</div></li>
+<li><p>Simule os efeitos de tratamentos e crie os identificadores;</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">134</span>)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>trat<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="fl">0.3</span><span class="sc">*</span><span class="fl">3.78</span>))</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>trat</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.8948555  1.2592509  0.2973063 -0.3733550 -1.3610387</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>A medida de variação entre os níveis de tratamento é: 1.05913922386107</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor dos efeitos de tratamentos</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>eftrat<span class="ot">&lt;-</span><span class="fu">round</span>(<span class="fu">rep</span>(trat, <span class="fu">length</span>(trat)), <span class="dv">2</span>)</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>eftrat</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -0.89  1.26  0.30 -0.37 -1.36 -0.89  1.26  0.30 -0.37 -1.36 -0.89  1.26
+[13]  0.30 -0.37 -1.36 -0.89  1.26  0.30 -0.37 -1.36 -0.89  1.26  0.30 -0.37
+[25] -1.36</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor dos identificadores dos tratamentos</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>idtrat<span class="ot">&lt;-</span><span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], <span class="dv">5</span>)</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>idtrat</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "A" "B" "C" "D" "E" "A" "B" "C" "D" "E" "A" "B" "C" "D" "E" "A" "B" "C" "D"
+[20] "E" "A" "B" "C" "D" "E"</code></pre>
+</div>
+</div></li>
+</ol>
+<p>Antes de criar a variável resposta deve-se observar que cada tratamento pode estar associado somente com uma única linha e uma única coluna. Dessa forma, os indicadores com os respectivos efeitos precisam ser rearranjados para cumprir essa condição. Será utilizada a função <em>tratDQL</em> para essa finalidade. O código da função está disponibilizado no anexo II.</p>
+<ol start="5" type="1">
+<li><p>Simule a variável resposta;</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>cms<span class="ot">&lt;-</span><span class="fl">21.95</span><span class="sc">+</span>eftrat<span class="sc">+</span>efracas<span class="sc">+</span>numlac<span class="sc">+</span>e</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>cms<span class="ot">&lt;-</span><span class="fu">round</span>(cms, <span class="dv">1</span>)</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>cms</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 18.8 24.2 21.8 20.1 17.6 21.7 26.8 23.8 22.6 21.1 21.0 23.8 23.2 21.7 20.1
+[16] 20.3 23.6 22.1 20.4 17.7 19.1 22.4 22.0 19.5 17.7</code></pre>
+</div>
+</div></li>
+<li><p>Armazene todos os dados da simulação em um data.frame;</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>dadosDQL<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">cms =</span> cms, <span class="at">eftrat =</span> eftrat, <span class="at">trat =</span> idtrat, <span class="at">efracas =</span> efracas, <span class="at">racas =</span> raca, <span class="at">eflac =</span> numlac, <span class="at">lact =</span> lact, <span class="at">e =</span> e)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>dadosDQL</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    cms eftrat trat efracas racas eflac lact           e
+1  18.8  -0.89    A   -0.94   her -0.89   l1 -0.43225627
+2  24.2   1.26    B    1.32   hol -0.89   l1  0.60827596
+3  21.8   0.30    C    0.31    gh -0.89   l1  0.14361260
+4  20.1  -0.37    D   -0.39    ps -0.89   l1 -0.18034758
+5  17.6  -1.36    E   -1.43   gir -0.89   l1 -0.65744416
+6  21.7  -0.89    A   -0.94   her  1.26   l2  0.31709243
+7  26.8   1.26    B    1.32   hol  1.26   l2  0.99401196
+8  23.8   0.30    C    0.31    gh  1.26   l2 -0.02712201
+9  22.6  -0.37    D   -0.39    ps  1.26   l2  0.13027644
+10 21.1  -1.36    E   -1.43   gir  1.26   l2  0.71043460
+11 21.0  -0.89    A   -0.94   her  0.30   l3  0.60745032
+12 23.8   1.26    B    1.32   hol  0.30   l3 -1.03240299
+13 23.2   0.30    C    0.31    gh  0.30   l3  0.29112786
+14 21.7  -0.37    D   -0.39    ps  0.30   l3  0.18760710
+15 20.1  -1.36    E   -1.43   gir  0.30   l3  0.66348315
+16 20.3  -0.89    A   -0.94   her -0.37   l4  0.52526073
+17 23.6   1.26    B    1.32   hol -0.37   l4 -0.53973583
+18 22.1   0.30    C    0.31    gh -0.37   l4 -0.07169015
+19 20.4  -0.37    D   -0.39    ps -0.37   l4 -0.37162295
+20 17.7  -1.36    E   -1.43   gir -0.37   l4 -1.09901733
+21 19.1  -0.89    A   -0.94   her -1.36   l5  0.33109873
+22 22.4   1.26    B    1.32   hol -1.36   l5 -0.76804584
+23 22.0   0.30    C    0.31    gh -1.36   l5  0.75374914
+24 19.5  -0.37    D   -0.39    ps -1.36   l5 -0.33500990
+25 17.7  -1.36    E   -1.43   gir -1.36   l5 -0.07785611</code></pre>
+</div>
+</div></li>
+<li><p>Crie arquivos do tipo csv e txt para serem utilizados em outros softwares de análise de dados.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Para planilhas eletrônicas</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(dadosDQL[,<span class="fu">c</span>(<span class="st">"trat"</span>, <span class="st">"racas"</span>, <span class="st">"lact"</span>, <span class="st">"cms"</span>)], <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">file =</span> <span class="st">"dql.csv"</span>)</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Para editores de texto</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(dadosDQL[,<span class="fu">c</span>(<span class="st">"trat"</span>, <span class="st">"racas"</span>, <span class="st">"lact"</span>, <span class="st">"cms"</span>)], <span class="at">sep =</span> <span class="st">" "</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">file =</span> <span class="st">"dql.txt"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<h2 id="experimentos-fatoriais" data-number="6" class="anchored" data-anchor-id="exercício"><span class="header-section-number">6</span> Experimentos Fatoriais</h2>
+<p>Na simulação de dados para experimentos fatoriais, a novidade em relação às simulações anteriores é a presença do efeito da interação entre níveis dos fatores considerados. Os tratamentos são formados pelas combinações dos níveis desses fatores.</p>
+<p>O modelo estatístico para um experimento fatorial conduzido no DIC é:</p>
+<p><span class="math display">\[y_{ijk} = \mu + a_i + b_j + (ab)_{ij} + e_{ijk}\]</span><br>
+em que,</p>
+<p><span class="math inline">\(y_{ijk} =\)</span> k-ésima observação do i-ésimo nível do fator <em>a</em> e j-ésimo nível do fator <em>b</em>;</p>
+<p><span class="math inline">\(\mu =\)</span> média da variável resposta;</p>
+<p><span class="math inline">\(a_i =\)</span> efeito do i-ésimo nível do fator <em>a</em>;</p>
+<p><span class="math inline">\(b_j =\)</span> efeito da j-ésimo nível do fator <em>b</em>;</p>
+<p><span class="math inline">\((ab)_{ij} =\)</span> efeito da interação entre o i-ésimo nível do fator <em>a</em> e o j-ésimo nível do fator <em>b</em>;</p>
+<p><span class="math inline">\(e_{ijk} =\)</span> erro associado à k-ésima observação do i-ésimo nível do fator <em>a</em> e j-ésimo nível do fator <em>b</em>.</p>
+<p>Simular os efeitos e indicadores dos níveis de <em>a</em> e <em>b</em> é idêntico a simular as linhas e colunas de um DIC ou simular tratamentos e blocos de um DBC.</p>
+<p>Para fins de ilustração, considera-se um experimento fatorial 3x2 com suínos, ou seja, com tratamentos formados pela combinação de 3 níveis do fator a (fontes de proteína) com 2 níveis do fator b (sexo dos animais). Os níveis para fontes de proteína são: farelo de Soja (FS), farelo de algodão (FA) e concentrado protéico do soro do leite (CL). Os níveis para sexo são: machos castrados (M) e fêmeas (F). Deseja-se avaliar o efeito dos tratamentos no ganho de peso médio diário (GPMD) em um ensaio de 42 dias. Cada tratamento será repetido 5 vezes e tem-se um total de 30 unidades experimentais/observações. A média da população para GPMD <span class="math inline">\(\left(\mu_{GPMD}\right)\)</span> será considerada igual a <span class="math inline">\(800g/dia\)</span>. A variância de GPMD <span class="math inline">\(\left(\sigma^2_{GPMD}\right)\)</span> é igual a <span class="math inline">\(6400g^2/dia^2\)</span> .</p>
+<p>Assim, inicia-se a simulação de dados pelos efeitos aleatórios do modelo, como de costume.</p>
+<ol type="1">
+<li><p>Simulação dos efeitos residuais</p>
+<p>Assume-se que a variância residual será 30% de <span class="math inline">\(\sigma^2_{GPMD}\)</span>. Assim,</p>
+<p><br>
+<span class="math display">\[\begin{align}
+\sigma^2_e &amp;= 0,3\times \sigma^2_{GPMD} &amp;\\
+&amp;= 0,3\times 6400 &amp;\\
+&amp;= 1920 &amp;
+\end{align}\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>e<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="dv">1920</span>))</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>e</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  27.011056  84.673460  -2.310349  11.097409  60.517336  51.744770
+ [7] -87.943744  24.799302  15.981037  56.517845  44.743570 -45.976610
+[13]  -6.106821 -31.656159 -93.618189  28.204163 -65.424865  64.207022
+[19] -28.537330  -6.632059 -50.504979   6.910805   6.425262  64.035419
+[25]  56.581668   3.860849 -40.890950 -28.780737 -49.801970  -5.027622</code></pre>
+</div>
+</div></li>
+</ol>
+<p>Agora, em ordem, serão simulados os efeitos dos níveis de <em>a</em>, de <em>b</em> e das interações.</p>
+<ol start="2" type="1">
+<li>Simulação dos efeitos dos níveis do fator fonte de proteína</li>
+<li>Simulação dos níveis do fator sexo</li>
+<li>Simulação dos efeitos de interação</li>
+<li>Simulação dos dados</li>
+</ol></li>
 <li><p>Coleta (definir modelo)</p></li>
 </ol>
 </section>
 </section>
 </section>
-<section id="simulações-nível-2-dados-experimentais-e-de-coleta-única-com-n-características-correlacionados" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="simulações-nível-2-dados-experimentais-e-de-coleta-única-com-n-características-correlacionados"><span class="header-section-number">6</span> Simulações (Nível 2): Dados Experimentais e de Coleta Única com n Características Correlacionados</h2>
+<section id="simulações-nível-2-dados-experimentais-e-de-coleta-única-com-n-características-correlacionados" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="simulações-nível-2-dados-experimentais-e-de-coleta-única-com-n-características-correlacionados"><span class="header-section-number">7</span> Simulações (Nível 2): Dados Experimentais e de Coleta Única com n Características Correlacionados</h2>
 <ol type="1">
 <li>Decomposição de Cholesky</li>
 <li>Análise de regressão (Simular dados via equação de regressão e adicionar os resíduos. Como simular especificando uma correlação ou R2 específico?)</li>
 </ol>
 </section>
-<section id="simulações-nível-3-dados-coletados-por-n-gerações" class="level2" data-number="7">
-<h2 data-number="7" class="anchored" data-anchor-id="simulações-nível-3-dados-coletados-por-n-gerações"><span class="header-section-number">7</span> Simulações (Nível 3): Dados Coletados por n Gerações</h2>
+<section id="simulações-nível-3-dados-coletados-por-n-gerações" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="simulações-nível-3-dados-coletados-por-n-gerações"><span class="header-section-number">8</span> Simulações (Nível 3): Dados Coletados por n Gerações</h2>
 <ol type="1">
 <li>Envolve a definição de progenitores</li>
 <li>Simular à partir de um pedigree?</li>
 </ol>
 </section>
-<section id="simulações-nível-4-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls" class="level2" data-number="8">
-<h2 data-number="8" class="anchored" data-anchor-id="simulações-nível-4-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls"><span class="header-section-number">8</span> Simulações (Nível 4): Dados Genéticos Coletados por n Gerações com Simulação de Genes ou QTLs</h2>
+<section id="simulações-nível-4-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="simulações-nível-4-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls"><span class="header-section-number">9</span> Simulações (Nível 4): Dados Genéticos Coletados por n Gerações com Simulação de Genes ou QTLs</h2>
 <ol type="1">
 <li>Gene dropping, forward simulation</li>
 <li>Geração de genoma</li>
 </ol>
 </section>
-<section id="simulações-nível-5-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls-e-características-correlacionadas." class="level2" data-number="9">
-<h2 data-number="9" class="anchored" data-anchor-id="simulações-nível-5-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls-e-características-correlacionadas."><span class="header-section-number">9</span> Simulações (Nível 5): Dados Genéticos Coletados por n Gerações com Simulação de Genes ou QTLs e Características Correlacionadas.</h2>
+<section id="simulações-nível-5-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls-e-características-correlacionadas." class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="simulações-nível-5-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls-e-características-correlacionadas."><span class="header-section-number">10</span> Simulações (Nível 5): Dados Genéticos Coletados por n Gerações com Simulação de Genes ou QTLs e Características Correlacionadas.</h2>
 <ol type="1">
 <li>Geração de genoma</li>
 <li>Escolha de reprodutores</li>
 </ol>
 </section>
-<section id="simulações-nível-6-dados-genômicos" class="level2" data-number="10">
-<h2 data-number="10" class="anchored" data-anchor-id="simulações-nível-6-dados-genômicos"><span class="header-section-number">10</span> Simulações (Nível 6): Dados Genômicos</h2>
+<section id="simulações-nível-6-dados-genômicos" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="simulações-nível-6-dados-genômicos"><span class="header-section-number">11</span> Simulações (Nível 6): Dados Genômicos</h2>
 <ol type="1">
 <li>Linkage desiquilibrium</li>
 <li>Equilíbrio mutação - deriva genética</li>
 </ol>
+</section>
+<section id="anexos" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="anexos">ANEXOS</h2>
+<section id="anexo-i" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="anexo-i">ANEXO I</h3>
+<p>Código da função ajustaVar</p>
+</section>
+<section id="anexo-ii" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="anexo-ii">ANEXO II</h3>
+<p>Código da função tratDQL</p>
+</section>
 </section>
 
 </main>
