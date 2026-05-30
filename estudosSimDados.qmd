@@ -444,176 +444,211 @@ Informações:
 
 Faça a simulação do dados do experimento seguindo os passos:
 
-1.  Simule os efeitos aleatórios;
+##### Simule os efeitos aleatórios;
 
-    ```{r eDQL}
-    #| echo: !expr -c(6)
-    set.seed(134)
+```{r eDQL}
+#| echo: !expr -c(6)
+set.seed(134)
 
-    e<-rnorm(25, 0, sqrt(0.07*3.78))
-    e
+e<-rnorm(25, 0, sqrt(0.07*3.78))
+e
 
-    message("Variância de e: ", var(e))
+message("Variância de e: ", var(e))
 
-    ```
+```
 
-2.  Simule os efeitos da genética dos animais (linhas) e os indicadores;
+##### Simule os efeitos da genética dos animais (linhas) e os indicadores;
 
-    ```{r linhas}
-    #| echo: !expr -c(6)
+```{r linhas}
+#| echo: !expr -c(6)
 
-    set.seed(134)
+set.seed(134)
 
-    linhas<-rnorm(5, 0, sqrt(0.33*3.78))
-    linhas
+linhas<-rnorm(5, 0, sqrt(0.33*3.78))
+linhas
 
-    message("A medida de variação entre os níveis de raça é: ", var(linhas))
-    ```
+message("A medida de variação entre os níveis de raça é: ", var(linhas))
+```
 
-    ```{r idlinhas}
+```{r idlinhas}
 
-    #vetor de efeitos de raças
-    efracas<-round(rep(linhas, 5), 2)
-    efracas
+#vetor de efeitos de raças
+efracas<-round(rep(linhas, 5), 2)
+efracas
 
-    #vetor de identificadores dos efeitos das raças
-    raca<-rep(c("her", "hol", "gh", "ps", "gir"), 5)
-    raca
+#vetor de identificadores dos efeitos das raças
+raca<-rep(c("her", "hol", "gh", "ps", "gir"), 5)
+raca
 
-    ```
+```
 
-3.  Simule os efeitos da número da lactação dos animais (colunas) e os indicadores;
+##### Simule os efeitos da número da lactação dos animais (colunas) e os indicadores;
 
-    ```{r colunas}
-    #| echo: !expr -c(6)
+```{r colunas}
+#| echo: !expr -c(6)
 
-    set.seed(134)
+set.seed(134)
 
-    colunas<-rnorm(5, 0, sqrt(0.3*3.78))
-    colunas
+colunas<-rnorm(5, 0, sqrt(0.3*3.78))
+colunas
 
-    message("A medida de variação entre os níveis de número da lactação é: " , var(colunas))
-    ```
+message("A medida de variação entre os níveis de número da lactação é: " , var(colunas))
+```
 
-    ```{r idcolunas}
+```{r idcolunas}
 
-    #vetor de efeitos de número da lactação
-    numlac<-round(rep(colunas, each = 5), 2)
-    numlac
+#vetor de efeitos de número da lactação
+numlac<-round(rep(colunas, each = 5), 2)
+numlac
 
-    #vetor de identificadores dos efeitos das lactações
-    lact<-rep(paste0("l", 1:5), each = 5)
-    lact
-    ```
+#vetor de identificadores dos efeitos das lactações
+lact<-rep(paste0("l", 1:5), each = 5)
+lact
+```
 
-4.  Simule os efeitos de tratamentos e crie os identificadores;
+##### Simule os efeitos de tratamentos e crie os identificadores;
 
-    ```{r trat}
-    #| echo: !expr -c(6)
+```{r trat}
+#| echo: !expr -c(6)
 
-    set.seed(134)
+set.seed(134)
 
-    trat<-rnorm(5, 0, sqrt(0.3*3.78))
-    trat
+trat<-rnorm(5, 0, sqrt(0.3*3.78))
+trat
 
-    message("A medida de variação entre os níveis de tratamento é: ", var(trat))
-    ```
+message("A medida de variação entre os níveis de tratamento é: ", var(trat))
+```
 
-    ```{r idtrat}
+```{r idtrat}
 
-    #vetor dos efeitos de tratamentos
-    eftrat<-round(rep(trat, length(trat)), 2)
-    eftrat
+#vetor dos efeitos de tratamentos
+eftrat<-round(rep(trat, length(trat)), 2)
+eftrat
 
-    #vetor dos identificadores dos tratamentos
-    idtrat<-rep(LETTERS[1:5], 5)
-    idtrat
+#vetor dos identificadores dos tratamentos
+idtrat<-rep(LETTERS[1:5], 5)
+idtrat
 
-    ```
+```
 
 Antes de criar a variável resposta deve-se observar que cada tratamento pode estar associado somente com uma única linha e uma única coluna. Dessa forma, os indicadores com os respectivos efeitos precisam ser rearranjados para cumprir essa condição. Será utilizada a função *tratDQL* para essa finalidade. O código da função está disponibilizado no anexo II.
 
-5.  Simule a variável resposta;
+##### Simule a variável resposta;
 
-    ```{r cms}
+```{r cms}
 
-    cms<-21.95+eftrat+efracas+numlac+e
-    cms<-round(cms, 1)
-    cms
+cms<-21.95+eftrat+efracas+numlac+e
+cms<-round(cms, 1)
+cms
 
-    ```
+```
 
-6.  Armazene todos os dados da simulação em um data.frame;
+##### Armazene todos os dados da simulação em um data.frame;
 
-    ```{r dadosDQL}
+```{r dadosDQL}
 
-    dadosDQL<-data.frame(cms = cms, eftrat = eftrat, trat = idtrat, efracas = efracas, racas = raca, eflac = numlac, lact = lact, e = e)
-    dadosDQL
-    ```
+dadosDQL<-data.frame(cms = cms, eftrat = eftrat, trat = idtrat, efracas = efracas, racas = raca, eflac = numlac, lact = lact, e = e)
+dadosDQL
+```
 
-7.  Crie arquivos do tipo csv e txt para serem utilizados em outros softwares de análise de dados.
+##### Crie arquivos do tipo csv e txt para serem utilizados em outros softwares de análise de dados.
 
-    ```{r arquivosDQL}
+```{r arquivosDQL}
 
-    #Para planilhas eletrônicas
-    write.csv(dadosDQL[,c("trat", "racas", "lact", "cms")], row.names = FALSE, file = "dql.csv")
+#Para planilhas eletrônicas
+write.csv(dadosDQL[,c("trat", "racas", "lact", "cms")], row.names = FALSE, file = "dql.csv")
 
-    #Para editores de texto
-    write.table(dadosDQL[,c("trat", "racas", "lact", "cms")], sep = " ", row.names = FALSE, file = "dql.txt")
-    ```
+#Para editores de texto
+write.table(dadosDQL[,c("trat", "racas", "lact", "cms")], sep = " ", row.names = FALSE, file = "dql.txt")
+```
 
-    ## Experimentos Fatoriais
+### Experimentos Fatoriais
 
-    Na simulação de dados para experimentos fatoriais, a novidade em relação às simulações anteriores é a presença do efeito da interação entre níveis dos fatores considerados. Os tratamentos são formados pelas combinações dos níveis desses fatores.
+Na simulação de dados para experimentos fatoriais, a novidade em relação às simulações anteriores é a presença do efeito da interação entre níveis dos fatores considerados. Os tratamentos são formados pelas combinações dos níveis desses fatores.
 
-    O modelo estatístico para um experimento fatorial conduzido no DIC é:
+O modelo estatístico para um experimento fatorial conduzido no DIC é:
 
-    $$y_{ijk} = \mu + a_i + b_j + (ab)_{ij} + e_{ijk}$$\
-    em que,
+$$y_{ijk} = \mu + a_i + b_j + (ab)_{ij} + e_{ijk}$$\
+em que,
 
-    $y_{ijk} =$ k-ésima observação do i-ésimo nível do fator *a* e j-ésimo nível do fator *b*;
+$y_{ijk} =$ k-ésima observação do i-ésimo nível do fator *a* e j-ésimo nível do fator *b*;
 
-    $\mu =$ média da variável resposta;
+$\mu =$ média da variável resposta;
 
-    $a_i =$ efeito do i-ésimo nível do fator *a*;
+$a_i =$ efeito do i-ésimo nível do fator *a*;
 
-    $b_j =$ efeito da j-ésimo nível do fator *b*;
+$b_j =$ efeito da j-ésimo nível do fator *b*;
 
-    $(ab)_{ij} =$ efeito da interação entre o i-ésimo nível do fator *a* e o j-ésimo nível do fator *b*;
+$(ab)_{ij} =$ efeito da interação entre o i-ésimo nível do fator *a* e o j-ésimo nível do fator *b*;
 
-    $e_{ijk} =$ erro associado à k-ésima observação do i-ésimo nível do fator *a* e j-ésimo nível do fator *b*.
+$e_{ijk} =$ erro associado à k-ésima observação do i-ésimo nível do fator *a* e j-ésimo nível do fator *b*.
 
-    Simular os efeitos e indicadores dos níveis de *a* e *b* é idêntico a simular as linhas e colunas de um DIC ou simular tratamentos e blocos de um DBC.
+Simular os efeitos e indicadores dos níveis de *a* e *b* é idêntico a simular as linhas e colunas de um DIC ou simular tratamentos e blocos de um DBC.
 
-    Para fins de ilustração, considera-se um experimento fatorial 3x2 com suínos, ou seja, com tratamentos formados pela combinação de 3 níveis do fator a (fontes de proteína) com 2 níveis do fator b (sexo dos animais). Os níveis para fontes de proteína são: farelo de Soja (FS), farelo de algodão (FA) e concentrado protéico do soro do leite (CL). Os níveis para sexo são: machos castrados (M) e fêmeas (F). Deseja-se avaliar o efeito dos tratamentos no ganho de peso médio diário (GPMD) em um ensaio de 42 dias. Cada tratamento será repetido 5 vezes e tem-se um total de 30 unidades experimentais/observações. A média da população para GPMD $\left(\mu_{GPMD}\right)$ será considerada igual a $800g/dia$. A variância de GPMD $\left(\sigma^2_{GPMD}\right)$ é igual a $6400g^2/dia^2$ .
+Para fins de ilustração, considera-se um experimento fatorial 3x2 com suínos, ou seja, com tratamentos formados pela combinação de 3 níveis do fator a (fontes de proteína) com 2 níveis do fator b (sexo dos animais). Os níveis para fontes de proteína são: farelo de Soja (FS), farelo de algodão (FA) e concentrado protéico do soro do leite (CL). Os níveis para sexo são: machos castrados (M) e fêmeas (F). Deseja-se avaliar o efeito dos tratamentos no ganho de peso médio diário (GPMD) em um ensaio de 42 dias. Cada tratamento será repetido 5 vezes e tem-se um total de 30 unidades experimentais/observações. A média da população para GPMD $\left(\mu_{GPMD}\right)$ será considerada igual a $800g/dia$. A variância de GPMD $\left(\sigma^2_{GPMD}\right)$ é igual a $6400g^2/dia^2$ .
 
-    Assim, inicia-se a simulação de dados pelos efeitos aleatórios do modelo, como de costume.
+Assim, inicia-se a simulação de dados pelos efeitos aleatórios do modelo, como de costume.
 
-    1.  Simulação dos efeitos residuais
+##### Simulação dos efeitos residuais
 
-        Assume-se que a variância residual será 30% de $\sigma^2_{GPMD}$. Assim,
+Assume-se que a variância residual será 30% de $\sigma^2_{GPMD}$. Assim,
 
-        \
-        $$\begin{align}
-        \sigma^2_e &= 0,3\times \sigma^2_{GPMD} &\\
-        &= 0,3\times 6400 &\\
-        &= 1920 &
-        \end{align}$$
+\
+$$\begin{align}
+\sigma^2_e &= 0,3\times \sigma^2_{GPMD} &\\
+&= 0,3\times 6400 &\\
+&= 1920 &
+\end{align}$$
 
-        ```{r eFat}
+```{r eFat}
+#| echo: !expr -c(6)
 
-        e<-rnorm(30, 0, sqrt(1920))
-        e
-        ```
+set.seed(437)
 
-    Agora, em ordem, serão simulados os efeitos dos níveis de *a*, de *b* e das interações.
+e<-rnorm(30, 0, sqrt(1920))
+e
 
-    2.  Simulação dos efeitos dos níveis do fator fonte de proteína
-    3.  Simulação dos níveis do fator sexo
-    4.  Simulação dos efeitos de interação
-    5.  Simulação dos dados
+message("A variância residual é: ", var(e))
+```
 
-8.  Coleta (definir modelo)
+Agora, em ordem, serão simulados os efeitos dos níveis de *a*, de *b* e das interações.
+
+##### Simulação dos efeitos dos níveis do fator fonte de proteína
+
+Para o fator fonte de proteína tem-se $3$ níveis: FS, FA e CL. Considerando-se que os efeitos tem distribuição normal com média $0$ e variância explicando $20\%$ da variação observada em GPMD:
+
+```{r fontesProt}
+#| echo: !expr -c(5, 10)
+
+set.seed(437)
+
+varFP<-0.2*6400
+
+message("A medida de varição definida entre os efeitos dos níveis de fontes de proteína é: ", varFP)
+
+efFP<-rnorm(3, 0, sqrt(varFP))
+efFP
+
+message("A medida de varição entre os efeitos simulados dos níveis de fontes de proteína é: ", var(efFP))
+```
+
+Com os efeitos simulados, deve-se criar os vetores de efeitos e seus respectivos identificadores.
+
+```{r idProt}
+
+#vetor de identificadores
+fontesP<-rep(c("FS", "FA", "CL"), 5)
+```
+
+##### Para o fator fontes de proteína
+
+##### Simulação dos níveis do fator sexo
+
+##### Simulação dos efeitos de interação
+
+##### Simulação dos dados
+
+##### Coleta (definir modelo)
 
 ## Simulações (Nível 2): Dados Experimentais e de Coleta Única com n Características Correlacionados
 

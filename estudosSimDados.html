@@ -560,7 +560,7 @@ em que,</p>
 </section>
 </section>
 <section id="dql" class="level3" data-number="5.3">
-<h3 data-number="5.3" class="anchored"><span class="header-section-number">5.3</span> DQL</h3>
+<h3 data-number="5.3" class="anchored" data-anchor-id="dql"><span class="header-section-number">5.3</span> DQL</h3>
 <p>No delineamento em quadrados latinos temos duas fontes de variação a serem controladas e portanto, dois blocos. Portanto a simulação de dados de um experimento montado no DQL segue o esquema apresentado nas seções anteriores. Os dados podem ser organizados de acordo com as fontes de variação que se deseja controlar, organizando-os como uma tabela com <span class="math inline">\(n\)</span> linhas e <span class="math inline">\(n\)</span> colunas. Nesse delineamento o número de níveis de tratamento é igual ao número de linhas e colunas, ou seja, igual ao número de níveis dos blocos. Assim, teremos também o número de tratamentos igual a <span class="math inline">\(n\)</span>.</p>
 <p>O modelo estatístico de um experimento em quadrado latino é:</p>
 <p><span class="math display">\[y_{ijk} = \mu+t_i+l_j+c_k+e_{ijk}\]</span><br>
@@ -572,7 +572,7 @@ em que,</p>
 <p><span class="math inline">\(c_k =\)</span> efeito da k-ésima coluna;</p>
 <p><span class="math inline">\(e_{ijk} =\)</span> erro associado à observação do i-ésimo tratamento na j-ésima linha e k-ésima coluna.</p>
 <section id="exercício" class="level4" data-number="5.3.1">
-<h4 data-number="5.3.1" class="anchored"><span class="header-section-number">5.3.1</span> Exercício</h4>
+<h4 data-number="5.3.1" class="anchored" data-anchor-id="exercício"><span class="header-section-number">5.3.1</span> Exercício</h4>
 <p>Um exercício guiado será utilizado para a simulação de um experimento no delineamento quadrado latino.</p>
 <p>Considere o experimento em que se deseja estudar a influência da inclusão de cinco novas fontes de fibra na ração de vacas leiteiras (tratamentos). Para verificar o efeito, o consumo de matéria seca (kg/dia) será medido. Para realizar o experimento o pesquisador dispõe de cinco animais de genética/raça diferente (linhas) que serão medidos em diferentes lactações (colunas). Os efeitos de tratamentos, linhas e colunas devem ser considerados fixos.</p>
 <p>Informações:</p>
@@ -585,8 +585,8 @@ em que,</p>
 <li><p><span class="math inline">\(\sigma^2_{trat} = 0,3\sigma^2_{cms};\quad \sigma^2_l = 0,33\sigma^2_{cms};\quad \sigma^2_c = 0,3\sigma^2_{cms}\)</span>.</p></li>
 </ul>
 <p>Faça a simulação do dados do experimento seguindo os passos:</p>
-<ol type="1">
-<li><p>Simule os efeitos aleatórios;</p>
+<section id="simule-os-efeitos-aleatórios" class="level5" data-number="5.3.1.1">
+<h5 data-number="5.3.1.1" class="anchored" data-anchor-id="simule-os-efeitos-aleatórios"><span class="header-section-number">5.3.1.1</span> Simule os efeitos aleatórios;</h5>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">134</span>)</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -602,8 +602,10 @@ em que,</p>
 <div class="cell-output cell-output-stderr">
 <pre><code>Variância de e: 0.330604804218947</code></pre>
 </div>
-</div></li>
-<li><p>Simule os efeitos da genética dos animais (linhas) e os indicadores;</p>
+</div>
+</section>
+<section id="simule-os-efeitos-da-genética-dos-animais-linhas-e-os-indicadores" class="level5" data-number="5.3.1.2">
+<h5 data-number="5.3.1.2" class="anchored" data-anchor-id="simule-os-efeitos-da-genética-dos-animais-linhas-e-os-indicadores"><span class="header-section-number">5.3.1.2</span> Simule os efeitos da genética dos animais (linhas) e os indicadores;</h5>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">134</span>)</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -633,8 +635,10 @@ em que,</p>
 [13] "gh"  "ps"  "gir" "her" "hol" "gh"  "ps"  "gir" "her" "hol" "gh"  "ps" 
 [25] "gir"</code></pre>
 </div>
-</div></li>
-<li><p>Simule os efeitos da número da lactação dos animais (colunas) e os indicadores;</p>
+</div>
+</section>
+<section id="simule-os-efeitos-da-número-da-lactação-dos-animais-colunas-e-os-indicadores" class="level5" data-number="5.3.1.3">
+<h5 data-number="5.3.1.3" class="anchored" data-anchor-id="simule-os-efeitos-da-número-da-lactação-dos-animais-colunas-e-os-indicadores"><span class="header-section-number">5.3.1.3</span> Simule os efeitos da número da lactação dos animais (colunas) e os indicadores;</h5>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">134</span>)</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -663,8 +667,10 @@ em que,</p>
 <pre><code> [1] "l1" "l1" "l1" "l1" "l1" "l2" "l2" "l2" "l2" "l2" "l3" "l3" "l3" "l3" "l3"
 [16] "l4" "l4" "l4" "l4" "l4" "l5" "l5" "l5" "l5" "l5"</code></pre>
 </div>
-</div></li>
-<li><p>Simule os efeitos de tratamentos e crie os identificadores;</p>
+</div>
+</section>
+<section id="simule-os-efeitos-de-tratamentos-e-crie-os-identificadores" class="level5" data-number="5.3.1.4">
+<h5 data-number="5.3.1.4" class="anchored" data-anchor-id="simule-os-efeitos-de-tratamentos-e-crie-os-identificadores"><span class="header-section-number">5.3.1.4</span> Simule os efeitos de tratamentos e crie os identificadores;</h5>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">134</span>)</span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -693,11 +699,11 @@ em que,</p>
 <pre><code> [1] "A" "B" "C" "D" "E" "A" "B" "C" "D" "E" "A" "B" "C" "D" "E" "A" "B" "C" "D"
 [20] "E" "A" "B" "C" "D" "E"</code></pre>
 </div>
-</div></li>
-</ol>
+</div>
 <p>Antes de criar a variável resposta deve-se observar que cada tratamento pode estar associado somente com uma única linha e uma única coluna. Dessa forma, os indicadores com os respectivos efeitos precisam ser rearranjados para cumprir essa condição. Será utilizada a função <em>tratDQL</em> para essa finalidade. O código da função está disponibilizado no anexo II.</p>
-<ol start="5" type="1">
-<li><p>Simule a variável resposta;</p>
+</section>
+<section id="simule-a-variável-resposta" class="level5" data-number="5.3.1.5">
+<h5 data-number="5.3.1.5" class="anchored" data-anchor-id="simule-a-variável-resposta"><span class="header-section-number">5.3.1.5</span> Simule a variável resposta;</h5>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>cms<span class="ot">&lt;-</span><span class="fl">21.95</span><span class="sc">+</span>eftrat<span class="sc">+</span>efracas<span class="sc">+</span>numlac<span class="sc">+</span>e</span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>cms<span class="ot">&lt;-</span><span class="fu">round</span>(cms, <span class="dv">1</span>)</span>
@@ -706,8 +712,10 @@ em que,</p>
 <pre><code> [1] 18.8 24.2 21.8 20.1 17.6 21.7 26.8 23.8 22.6 21.1 21.0 23.8 23.2 21.7 20.1
 [16] 20.3 23.6 22.1 20.4 17.7 19.1 22.4 22.0 19.5 17.7</code></pre>
 </div>
-</div></li>
-<li><p>Armazene todos os dados da simulação em um data.frame;</p>
+</div>
+</section>
+<section id="armazene-todos-os-dados-da-simulação-em-um-data.frame" class="level5" data-number="5.3.1.6">
+<h5 data-number="5.3.1.6" class="anchored" data-anchor-id="armazene-todos-os-dados-da-simulação-em-um-data.frame"><span class="header-section-number">5.3.1.6</span> Armazene todos os dados da simulação em um data.frame;</h5>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>dadosDQL<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">cms =</span> cms, <span class="at">eftrat =</span> eftrat, <span class="at">trat =</span> idtrat, <span class="at">efracas =</span> efracas, <span class="at">racas =</span> raca, <span class="at">eflac =</span> numlac, <span class="at">lact =</span> lact, <span class="at">e =</span> e)</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>dadosDQL</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
@@ -739,8 +747,10 @@ em que,</p>
 24 19.5  -0.37    D   -0.39    ps -1.36   l5 -0.33500990
 25 17.7  -1.36    E   -1.43   gir -1.36   l5 -0.07785611</code></pre>
 </div>
-</div></li>
-<li><p>Crie arquivos do tipo csv e txt para serem utilizados em outros softwares de análise de dados.</p>
+</div>
+</section>
+<section id="crie-arquivos-do-tipo-csv-e-txt-para-serem-utilizados-em-outros-softwares-de-análise-de-dados." class="level5" data-number="5.3.1.7">
+<h5 data-number="5.3.1.7" class="anchored" data-anchor-id="crie-arquivos-do-tipo-csv-e-txt-para-serem-utilizados-em-outros-softwares-de-análise-de-dados."><span class="header-section-number">5.3.1.7</span> Crie arquivos do tipo csv e txt para serem utilizados em outros softwares de análise de dados.</h5>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Para planilhas eletrônicas</span></span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(dadosDQL[,<span class="fu">c</span>(<span class="st">"trat"</span>, <span class="st">"racas"</span>, <span class="st">"lact"</span>, <span class="st">"cms"</span>)], <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">file =</span> <span class="st">"dql.csv"</span>)</span>
@@ -748,7 +758,11 @@ em que,</p>
 <span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Para editores de texto</span></span>
 <span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(dadosDQL[,<span class="fu">c</span>(<span class="st">"trat"</span>, <span class="st">"racas"</span>, <span class="st">"lact"</span>, <span class="st">"cms"</span>)], <span class="at">sep =</span> <span class="st">" "</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">file =</span> <span class="st">"dql.txt"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<h2 id="experimentos-fatoriais" data-number="6" class="anchored" data-anchor-id="exercício"><span class="header-section-number">6</span> Experimentos Fatoriais</h2>
+</section>
+</section>
+</section>
+<section id="experimentos-fatoriais" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="experimentos-fatoriais"><span class="header-section-number">5.4</span> Experimentos Fatoriais</h3>
 <p>Na simulação de dados para experimentos fatoriais, a novidade em relação às simulações anteriores é a presença do efeito da interação entre níveis dos fatores considerados. Os tratamentos são formados pelas combinações dos níveis desses fatores.</p>
 <p>O modelo estatístico para um experimento fatorial conduzido no DIC é:</p>
 <p><span class="math display">\[y_{ijk} = \mu + a_i + b_j + (ab)_{ij} + e_{ijk}\]</span><br>
@@ -762,8 +776,8 @@ em que,</p>
 <p>Simular os efeitos e indicadores dos níveis de <em>a</em> e <em>b</em> é idêntico a simular as linhas e colunas de um DIC ou simular tratamentos e blocos de um DBC.</p>
 <p>Para fins de ilustração, considera-se um experimento fatorial 3x2 com suínos, ou seja, com tratamentos formados pela combinação de 3 níveis do fator a (fontes de proteína) com 2 níveis do fator b (sexo dos animais). Os níveis para fontes de proteína são: farelo de Soja (FS), farelo de algodão (FA) e concentrado protéico do soro do leite (CL). Os níveis para sexo são: machos castrados (M) e fêmeas (F). Deseja-se avaliar o efeito dos tratamentos no ganho de peso médio diário (GPMD) em um ensaio de 42 dias. Cada tratamento será repetido 5 vezes e tem-se um total de 30 unidades experimentais/observações. A média da população para GPMD <span class="math inline">\(\left(\mu_{GPMD}\right)\)</span> será considerada igual a <span class="math inline">\(800g/dia\)</span>. A variância de GPMD <span class="math inline">\(\left(\sigma^2_{GPMD}\right)\)</span> é igual a <span class="math inline">\(6400g^2/dia^2\)</span> .</p>
 <p>Assim, inicia-se a simulação de dados pelos efeitos aleatórios do modelo, como de costume.</p>
-<ol type="1">
-<li><p>Simulação dos efeitos residuais</p>
+<section id="simulação-dos-efeitos-residuais" class="level5" data-number="5.4.0.1">
+<h5 data-number="5.4.0.1" class="anchored" data-anchor-id="simulação-dos-efeitos-residuais"><span class="header-section-number">5.4.0.1</span> Simulação dos efeitos residuais</h5>
 <p>Assume-se que a variância residual será 30% de <span class="math inline">\(\sigma^2_{GPMD}\)</span>. Assim,</p>
 <p><br>
 <span class="math display">\[\begin{align}
@@ -772,59 +786,96 @@ em que,</p>
 &amp;= 1920 &amp;
 \end{align}\]</span></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>e<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="dv">1920</span>))</span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>e</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">437</span>)</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>e<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="dv">1920</span>))</span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>e</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  27.011056  84.673460  -2.310349  11.097409  60.517336  51.744770
- [7] -87.943744  24.799302  15.981037  56.517845  44.743570 -45.976610
-[13]  -6.106821 -31.656159 -93.618189  28.204163 -65.424865  64.207022
-[19] -28.537330  -6.632059 -50.504979   6.910805   6.425262  64.035419
-[25]  56.581668   3.860849 -40.890950 -28.780737 -49.801970  -5.027622</code></pre>
+<pre><code> [1]   10.3542451    6.6676000  -92.9163133   75.1743767  -23.9147626
+ [6]  -43.8478778  -27.4864113   30.6737306   -0.7160425  -28.5690600
+[11]  -61.3495658   -3.8939864   -9.5020012   63.6170048   -5.8523522
+[16]   43.5447450  -52.8001919   -3.4863766   -7.8805598    6.5455116
+[21]   28.8149560  -14.0990038  -83.8817082 -105.6943297   -7.1107770
+[26]  -47.6563154   70.8470562  -67.2751009  -48.6601790  -43.1313952</code></pre>
 </div>
-</div></li>
-</ol>
+<div class="cell-output cell-output-stderr">
+<pre><code>A variância residual é: 2102.45667935909</code></pre>
+</div>
+</div>
 <p>Agora, em ordem, serão simulados os efeitos dos níveis de <em>a</em>, de <em>b</em> e das interações.</p>
-<ol start="2" type="1">
-<li>Simulação dos efeitos dos níveis do fator fonte de proteína</li>
-<li>Simulação dos níveis do fator sexo</li>
-<li>Simulação dos efeitos de interação</li>
-<li>Simulação dos dados</li>
-</ol></li>
-<li><p>Coleta (definir modelo)</p></li>
-</ol>
+</section>
+<section id="simulação-dos-efeitos-dos-níveis-do-fator-fonte-de-proteína" class="level5" data-number="5.4.0.2">
+<h5 data-number="5.4.0.2" class="anchored" data-anchor-id="simulação-dos-efeitos-dos-níveis-do-fator-fonte-de-proteína"><span class="header-section-number">5.4.0.2</span> Simulação dos efeitos dos níveis do fator fonte de proteína</h5>
+<p>Para o fator fonte de proteína tem-se <span class="math inline">\(3\)</span> níveis: FS, FA e CL. Considerando-se que os efeitos tem distribuição normal com média <span class="math inline">\(0\)</span> e variância explicando <span class="math inline">\(20\%\)</span> da variação observada em GPMD:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">437</span>)</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>varFP<span class="ot">&lt;-</span><span class="fl">0.2</span><span class="sc">*</span><span class="dv">6400</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>A medida de varição definida entre os efeitos dos níveis de fontes de proteína é: 1280</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>efFP<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">3</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(varFP))</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>efFP</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]   8.454206   5.444073 -75.865852</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>A medida de varição entre os efeitos simulados dos níveis de fontes de proteína é: 2288.37282080706</code></pre>
+</div>
+</div>
+<p>Com os efeitos simulados, deve-se criar os vetores de efeitos e seus respectivos identificadores.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co">#vetor de identificadores</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>fontesP<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"FS"</span>, <span class="st">"FA"</span>, <span class="st">"CL"</span>), <span class="dv">5</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="para-o-fator-fontes-de-proteína" class="level5" data-number="5.4.0.3">
+<h5 data-number="5.4.0.3" class="anchored" data-anchor-id="para-o-fator-fontes-de-proteína"><span class="header-section-number">5.4.0.3</span> Para o fator fontes de proteína</h5>
+</section>
+<section id="simulação-dos-níveis-do-fator-sexo" class="level5" data-number="5.4.0.4">
+<h5 data-number="5.4.0.4" class="anchored" data-anchor-id="simulação-dos-níveis-do-fator-sexo"><span class="header-section-number">5.4.0.4</span> Simulação dos níveis do fator sexo</h5>
+</section>
+<section id="simulação-dos-efeitos-de-interação" class="level5" data-number="5.4.0.5">
+<h5 data-number="5.4.0.5" class="anchored" data-anchor-id="simulação-dos-efeitos-de-interação"><span class="header-section-number">5.4.0.5</span> Simulação dos efeitos de interação</h5>
+</section>
+<section id="simulação-dos-dados" class="level5" data-number="5.4.0.6">
+<h5 data-number="5.4.0.6" class="anchored" data-anchor-id="simulação-dos-dados"><span class="header-section-number">5.4.0.6</span> Simulação dos dados</h5>
+</section>
+<section id="coleta-definir-modelo" class="level5" data-number="5.4.0.7">
+<h5 data-number="5.4.0.7" class="anchored" data-anchor-id="coleta-definir-modelo"><span class="header-section-number">5.4.0.7</span> Coleta (definir modelo)</h5>
 </section>
 </section>
 </section>
-<section id="simulações-nível-2-dados-experimentais-e-de-coleta-única-com-n-características-correlacionados" class="level2" data-number="7">
-<h2 data-number="7" class="anchored" data-anchor-id="simulações-nível-2-dados-experimentais-e-de-coleta-única-com-n-características-correlacionados"><span class="header-section-number">7</span> Simulações (Nível 2): Dados Experimentais e de Coleta Única com n Características Correlacionados</h2>
+<section id="simulações-nível-2-dados-experimentais-e-de-coleta-única-com-n-características-correlacionados" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="simulações-nível-2-dados-experimentais-e-de-coleta-única-com-n-características-correlacionados"><span class="header-section-number">6</span> Simulações (Nível 2): Dados Experimentais e de Coleta Única com n Características Correlacionados</h2>
 <ol type="1">
 <li>Decomposição de Cholesky</li>
 <li>Análise de regressão (Simular dados via equação de regressão e adicionar os resíduos. Como simular especificando uma correlação ou R2 específico?)</li>
 </ol>
 </section>
-<section id="simulações-nível-3-dados-coletados-por-n-gerações" class="level2" data-number="8">
-<h2 data-number="8" class="anchored" data-anchor-id="simulações-nível-3-dados-coletados-por-n-gerações"><span class="header-section-number">8</span> Simulações (Nível 3): Dados Coletados por n Gerações</h2>
+<section id="simulações-nível-3-dados-coletados-por-n-gerações" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="simulações-nível-3-dados-coletados-por-n-gerações"><span class="header-section-number">7</span> Simulações (Nível 3): Dados Coletados por n Gerações</h2>
 <ol type="1">
 <li>Envolve a definição de progenitores</li>
 <li>Simular à partir de um pedigree?</li>
 </ol>
 </section>
-<section id="simulações-nível-4-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls" class="level2" data-number="9">
-<h2 data-number="9" class="anchored" data-anchor-id="simulações-nível-4-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls"><span class="header-section-number">9</span> Simulações (Nível 4): Dados Genéticos Coletados por n Gerações com Simulação de Genes ou QTLs</h2>
+<section id="simulações-nível-4-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="simulações-nível-4-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls"><span class="header-section-number">8</span> Simulações (Nível 4): Dados Genéticos Coletados por n Gerações com Simulação de Genes ou QTLs</h2>
 <ol type="1">
 <li>Gene dropping, forward simulation</li>
 <li>Geração de genoma</li>
 </ol>
 </section>
-<section id="simulações-nível-5-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls-e-características-correlacionadas." class="level2" data-number="10">
-<h2 data-number="10" class="anchored" data-anchor-id="simulações-nível-5-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls-e-características-correlacionadas."><span class="header-section-number">10</span> Simulações (Nível 5): Dados Genéticos Coletados por n Gerações com Simulação de Genes ou QTLs e Características Correlacionadas.</h2>
+<section id="simulações-nível-5-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls-e-características-correlacionadas." class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="simulações-nível-5-dados-genéticos-coletados-por-n-gerações-com-simulação-de-genes-ou-qtls-e-características-correlacionadas."><span class="header-section-number">9</span> Simulações (Nível 5): Dados Genéticos Coletados por n Gerações com Simulação de Genes ou QTLs e Características Correlacionadas.</h2>
 <ol type="1">
 <li>Geração de genoma</li>
 <li>Escolha de reprodutores</li>
 </ol>
 </section>
-<section id="simulações-nível-6-dados-genômicos" class="level2" data-number="11">
-<h2 data-number="11" class="anchored" data-anchor-id="simulações-nível-6-dados-genômicos"><span class="header-section-number">11</span> Simulações (Nível 6): Dados Genômicos</h2>
+<section id="simulações-nível-6-dados-genômicos" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="simulações-nível-6-dados-genômicos"><span class="header-section-number">10</span> Simulações (Nível 6): Dados Genômicos</h2>
 <ol type="1">
 <li>Linkage desiquilibrium</li>
 <li>Equilíbrio mutação - deriva genética</li>
